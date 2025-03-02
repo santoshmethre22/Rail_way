@@ -11,7 +11,14 @@ const UserSchema = new mongoose.Schema(
       required: true },
    // phone: {type:Number,require:true},
     role: { type: String, enum: ["user", "admin"], default: "user" }, // User roles
-
+    
+    files: [
+      {
+        url: { type: String }, // Cloudinary URL
+        fileType: { type: String }, // image or video
+        uploadedAt: { type: Date, default: Date.now }
+      }
+    ],
     
   },
   { timestamps: true }
