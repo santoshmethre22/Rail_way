@@ -19,6 +19,15 @@ const UserSchema = new mongoose.Schema(
         uploadedAt: { type: Date, default: Date.now }
       }
     ],
+
+    phone:{
+      type:String ,
+      default:"0000000000"
+    },
+
+  otp: { type: String }, // Stores OTP
+  otpExpires: { type: Date }, // OTP Expiration Time
+  isVerified: { type: Boolean, default: false }, 
     
   },
   { timestamps: true }

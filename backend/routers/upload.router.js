@@ -1,6 +1,6 @@
 import express from "express";
-import upload from "../claudinary/multerConfig.js";
-import cloudinary from "../claudinary/claudinaryConfig.js";
+import upload from "../utils/multerConfig.js";
+import cloudinary from "../utils/claudinaryConfig.js";
 
 import { User } from "../models/user.model.js";
 import { protect } from "../middlewares/auth.middleware.js";
