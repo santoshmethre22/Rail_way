@@ -1,45 +1,26 @@
 import axios from "axios";
 import {createContext, useContext, useState} from "react";
-
 const userContext=createContext();
-
-
 export const UserContextProvider = ({ children }) => {
     const [user,setUser]=useState([]);
     const [isAuth,setIsAuth]=useState(false);
-
-
-
 async function loginUser(email, password, navigate) {
 
     try {
       const { data } = await axios.post("/api/user/login", {
         email,
         password,
-      });
-
-      
+      });  
       localStorage.setItem("token", data.token);
       setUser(data.user);
       setIsAuth(true);
-     
       navigate("/");
-     
     } catch (error) {
-  
-   
         setIsAuth(false);
         console.log(error);
-        alert(error.response?.data?.message || "Login failed"); 
-      
-      
-     
+        alert(error.response?.data?.message || "Login failed");  
     }
   }
-
-
-
-
   async function registerUser(name, email, password, navigate) {
 
     try {
@@ -58,8 +39,6 @@ async function loginUser(email, password, navigate) {
      console.log(error);
     }
   }
-
-
 //   async function verifyOtp(otp, navigate) {
 //     setBtnLoading(true);
 //     const activationToken = localStorage.getItem("activationToken");
@@ -100,10 +79,49 @@ async function loginUser(email, password, navigate) {
 
 
 
+  async function uploadPhoto(imagefile) {
+      try {
+        const formData =new FormData();
+        formData.append("file",imagefile);
+        await axios.post("/api/uploads/uploads-file",formData,{
+            headers :{
+                "content-Type":"multipart/form-data",
+            },    
+        })
+        console.log("Upload successful:", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
+  const getuser = async () => {
+     try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+          throw new Error("No authentication token found");
+      }
+
+      const response = await axios.get("/api/user/get-user", {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+      });
+
+      setUser(response.data); // Update the user state
+      return response.data;
+  } catch (error) {
+      console.error("Error fetching user:", error.message);
+      return null;
+  }
+};
+
+  
+
+  
+
   return (
-
     <userContext.Provider
-
         value={{
             user,
             setUser,
@@ -111,20 +129,12 @@ async function loginUser(email, password, navigate) {
             isAuth,
             loginUser,
             registerUser,
-
-
+            uploadPhoto,
+            getuser
         }}  
-
-
     >
-
         {children}
-
     </userContext.Provider>
   )
-
-
 }
-
-
 export const userData =()=>useContext(userContext);
