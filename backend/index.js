@@ -50,9 +50,9 @@ import { updateTrain } from "./controllers/train.controllers.js";
 app.use("/api/user",UserRouter);
 app.use("/api/train",trainRouter);
 
-app.use("/api/bookings/",BookingRouter);
+app.use("/api/bookings",BookingRouter);
 
-app.use("/api/uploads/",UploadRouter)
+app.use("/api/uploads",UploadRouter)
 
 const PORT = process.env.PORT || 5000;
 

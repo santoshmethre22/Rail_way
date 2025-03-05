@@ -56,10 +56,61 @@ const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+
+
 };
 
+
+const getUser = async (req, res) => {
+  try {
+      const user = await User.findById(req.user.id);
+
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          image: user.files.length > 0 ? user.files[0].url : null, // Assuming first file is profile pic
+      });
+  } catch (error) {
+      res.status(500).json({ message: "Server Error" });
+  }
+};
+
+
+const setUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const data = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    // ✅ Update user while ensuring validation & returning updated data
+    const user = await User.findByIdAndUpdate(userId, data, { new: true, runValidators: true });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated successfully", user });
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating user", error: error.message });
+  }
+};
+
+
+
+
 export {
-  registerUser, loginUser
+  registerUser, 
+  loginUser,
+  setUser,
+  getUser
 }
 
 
