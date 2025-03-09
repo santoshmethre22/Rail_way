@@ -5,6 +5,9 @@ import Login from './pages/auth/Login.jsx'
 import Register from './pages/auth/Register.jsx'
 import Upload from './pages/upload/Upload.jsx'
 import Profile from './pages/Profile/Profile.jsx'
+import AddTrain from './pages/Train/AddTrain/AddTrain.jsx'
+import GetAllTrain from './pages/Train/GetAllTrain/GetAllTrain.jsx'
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,6 +20,12 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/upload' element={<Upload />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/Add-Train' element={<AddTrain />} />
+            <Route path='/get-all-train' element={<GetAllTrain />} />
+
+            
+
+          
           </Routes>
       </Router>
     </>

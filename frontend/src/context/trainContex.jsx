@@ -1,33 +1,36 @@
 import { createContext, useContext, useState } from "react";
-
+import axios from "axios";
 const TrainContext=createContext();
 
 export const TrainContextProvider=({children})=>{
 
     const [train,setTrains]=useState([]);
 
-    const addTrain=async({Data})=>{
+    const addTrain = async (Data) => {
         try {
             const token = localStorage.getItem("token");
-
-      if (!token) {
-          throw new Error("No authentication token found");
-      }
-          const response=  await axios.post("api/train/add-train",Data,{
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-
-            setTrains((prev) => [...prev, response.data]);
-            
+    
+            if (!token) {
+                throw new Error("No authentication token found");
+            }
+    
+            const response = await axios.post("/api/train/add-train", Data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+    
+            // Ensure response contains the added train data before updating state
+            if (response.data) {
+                setTrains((prev) => [...prev, response.data]);
+            }
+    
         } catch (error) {
-            console.error("Error while adding the train:", error.message);
-         }
-
-
-    }
-
+            console.error("Error while adding the train:", error.response?.data?.message || error.message);
+        }
+    };
+1    
     const fetchAllTrain=async()=>{
         try {
             const token = localStorage.getItem("token");
@@ -37,7 +40,7 @@ export const TrainContextProvider=({children})=>{
       }
 
 
-            const response=await axios.get("/api/train/",{
+            const response=await axios.get("/api/train/get-all-trains",{
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -53,7 +56,7 @@ export const TrainContextProvider=({children})=>{
 
     const searchTrain=async()=>{
         try {
-            const response =await axios.get("/api/train/");
+            const response =await axios.get("/api/train/search-trains");
 
             return response.data;
             
@@ -72,7 +75,7 @@ export const TrainContextProvider=({children})=>{
       }
 
 
-            const response =await axios.patch(`/api/train/ ${id}`,
+            const response =await axios.patch(`/api/train/update-train/ ${id}`,
                 updateTrain,{
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -89,16 +92,11 @@ export const TrainContextProvider=({children})=>{
 
     const deleteTrain=async({id})=>{
         try {  
-
             const token = localStorage.getItem("token");
-
-      if (!token) {
-          throw new Error("No authentication token found");
-      }
-
-
-
-            const response =await axios.delete(`/api/train/${id}`,{
+            if (!token) {
+                throw new Error("No authentication token found");
+            }
+            const response =await axios.delete(`/api/train//delete-train/${id}`,{
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -113,6 +111,7 @@ export const TrainContextProvider=({children})=>{
         <TrainContext.Provider
         
         value={{
+            
             train,
             addTrain,
             fetchAllTrain,
