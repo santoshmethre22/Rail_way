@@ -22,5 +22,5 @@ trainRouter.get("/search-trains", searchTrains); // Search trains by source & de
 trainRouter.patch("/update-train/:id", protect,updateTrain); // ✅ Fixed typo from "trian"
 trainRouter.delete("/delete-train", protect, adminAuth, deleteTrain);
 trainRouter.get("/get-all-bookings", protect, adminAuth, getAllbookings);
-
+// --- this router must be in admin section ---
 export { trainRouter };
