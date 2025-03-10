@@ -1,0 +1,67 @@
+/* TrainSearch.css */
+.train-search-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .train-search-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .train-search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .train-search-input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .train-search-button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .train-search-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  
+  .loading-message {
+    color: #007bff;
+    margin-top: 10px;
+  }
+  
+  .train-list {
+    margin-top: 20px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .train-item {
+    background: #f8f8f8;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  

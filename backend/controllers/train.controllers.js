@@ -50,8 +50,8 @@ const searchTrains = async (req, res) => {
     }
 
     const trains = await Train.find({
-      source: { $regex: new RegExp(`^${source}$`, "i") },
-      destination: { $regex: new RegExp(`^${destination}$`, "i") }
+      source: { $regex: new RegExp(source, "i") }, // Allows partial matches (case-insensitive)
+      destination: { $regex: new RegExp(destination, "i") }
     });
 
     if (trains.length === 0) {
@@ -60,9 +60,10 @@ const searchTrains = async (req, res) => {
 
     res.json(trains);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 
 const updateTrain = async (req, res) => {

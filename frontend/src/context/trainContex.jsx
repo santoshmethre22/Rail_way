@@ -54,19 +54,33 @@ export const TrainContextProvider=({children})=>{
     }
 
 
-    const searchTrain=async()=>{
+    const searchTrain = async (source, destination) => {
         try {
-            const response =await axios.get("/api/train/search-trains");
-
-            return response.data;
-            
-        } catch (error) { 
-            
-            
+          if (!source || !destination) {
+            console.error("Source and destination are required");
+            return { error: "Source and destination are required", trains: [] };
+          }
+      
+          const response = await axios.get("/api/train/search-trains", 
+            { params: { source, 
+                destination } 
+        });
+          return { trains: response.data, error: null }; // Return trains in an object
+      
+        } catch (error) {
+          console.error("Error searching for trains:", error.response?.data?.message || error.message);
+          
+          return {
+            trains: [],
+            error: error.response?.data?.message || "Something went wrong",
+          };
         }
-    }
+      };
+      
 
-    const updateTrain=async(id,updateTrain)=>{
+      
+    const updateTrain=async(id,updateTrainData
+    )=>{
         try {
             const token = localStorage.getItem("token");
 
@@ -75,15 +89,19 @@ export const TrainContextProvider=({children})=>{
       }
 
 
-            const response =await axios.patch(`/api/train/update-train/ ${id}`,
-                updateTrain,{
+            const response =await axios.patch(`/api/train/update-train/${id}`,updateTrainData,
+                {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                    },
+                        "Content-Type": "application/json",
+                    }
+                    
                 }
             )
-            setTrains((prev)=>
-            prev.map((train)=>train._id==id?response.data :train));     
+            setTrains((prev) =>
+                prev.map((train) => (train._id === id ? response.data.train : train))
+            );  
+
         } catch (error) {
             console.error("Error while adding the train:", error.message);
             

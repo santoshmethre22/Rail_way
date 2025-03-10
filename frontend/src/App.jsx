@@ -7,6 +7,8 @@ import Upload from './pages/upload/Upload.jsx'
 import Profile from './pages/Profile/Profile.jsx'
 import AddTrain from './pages/Train/AddTrain/AddTrain.jsx'
 import GetAllTrain from './pages/Train/GetAllTrain/GetAllTrain.jsx'
+import SearchTrain from './pages/Train/SearchTrain/SearchTrain.jsx'
+import UpdateTrain from './pages/Train/UpdateTrain/UpdateTrain.jsx'
 
 
 function App() {
@@ -22,10 +24,10 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/Add-Train' element={<AddTrain />} />
             <Route path='/get-all-train' element={<GetAllTrain />} />
+            <Route path='/search-Train' element={<SearchTrain />} />
+            <Route path='/search-Train' element={<SearchTrain />} />
+            <Route path="/update-train/:id" element={<UpdateTrain />} />
 
-            
-
-          
           </Routes>
       </Router>
     </>
