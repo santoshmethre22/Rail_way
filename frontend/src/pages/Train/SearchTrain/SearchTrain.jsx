@@ -59,7 +59,7 @@ function SearchTrain() {
           trains.map((train) => (
             <li key={train._id} className="train-item">
               {train.name} - {train.source} to {train.destination}
-              <button>Book</button>
+              <button> go to booking // to do add the functionality</button>
             </li>
           ))
         ) : (

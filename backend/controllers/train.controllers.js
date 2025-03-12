@@ -131,12 +131,31 @@ const getAllbookings =async(req,res)=>{
 
 }
 
+
+const getTrainBooking = async (req, res) => {
+  try {
+    const train = await Train.findById(req.params.id).populate("book");
+    
+    if (!train) {
+      return res.status(404).json({ message: "The train is not found" });
+    }
+
+    return res.status(200).json(train);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
 export { 
   addTrain,
    getAllTrains, 
    searchTrains,
    updateTrain,
    deleteTrain,
-  getAllbookings
+  getAllbookings,
+  getTrainBooking
    
    };

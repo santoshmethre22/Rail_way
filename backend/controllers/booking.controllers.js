@@ -7,7 +7,9 @@ import mongoose from "mongoose";
 
 const bookTrainTicket = async (req, res) => {
   try {
-    const {trainId, seat} = req.body;
+    const {trainId, seat} = req.params;
+    const {name,age,phone,email,gender}=req.body;
+    
     const userId = req.user.id;
     if (!userId || !trainId || !seat ) {
       return res.status(400).json({ message: "Missing required fields" });
@@ -25,6 +27,12 @@ const bookTrainTicket = async (req, res) => {
 
     // Create a new booking
     const booking = new Booking({
+
+      name,
+      age,
+      phone,
+      email,
+      gender,
       user: userId,
       train: trainId,
       seats:seat,
@@ -65,6 +73,24 @@ const getUserBookings = async (req, res) => {
 // @route   DELETE /api/bookings/:id
 
 //------------------------------------->
+
+
+const BookingOftrain = async (req, res) => {
+  try {
+    const bookings = await Booking.find({ train: req.params.id }).populate("user");
+
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).json({ message: "No bookings found for this train" });
+    }
+
+    console.log(bookings);
+
+    return res.status(200).json({ bookings });
+  } catch (error) {
+    console.error("Error fetching bookings:", error);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
 
 const cancelBooking = async (req, res) => {
   try {
@@ -115,7 +141,8 @@ const cancelBooking = async (req, res) => {
 export {
   bookTrainTicket, 
   getUserBookings,
-   cancelBooking
+   cancelBooking,
+   BookingOftrain
 }
 
 

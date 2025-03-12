@@ -40,6 +40,7 @@ function GetAllTrain() {
               <button onClick={() => navigate(`/update-train/${train._id}`)}>
                 Update Train
               </button>
+              <button > go to booking</button>
             </li>
           ))
         ) : (

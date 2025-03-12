@@ -127,9 +127,18 @@ export const TrainContextProvider=({children})=>{
         }
     }
 
+
+    const getTrainBooking = async ({ id }) => {
+        try {
+          const response = await axios.get(`/api/train/get-train-book/${id}`);
+          return response.data; // Return the data directly
+        } catch (error) {
+          console.error("Error fetching train booking:", error.message);
+          throw error; // Rethrow the error for handling in the calling function
+        }
+      };
     return (
-        <TrainContext.Provider
-        
+        <TrainContext.Provider    
         value={{
             
             train,
@@ -138,19 +147,13 @@ export const TrainContextProvider=({children})=>{
             searchTrain,
             updateTrain,
             deleteTrain,
-    
+            getTrainBooking
 
         }}
-        
         >
-
             {children}
         </TrainContext.Provider>
-
     )
-
-
-
 }
 
 

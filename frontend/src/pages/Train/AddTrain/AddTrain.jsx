@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { TrainData } from '../../../context/trainContex.jsx'
 import "./AddTrain.css"
 
-function AddTrain() {
+function AddTrain({trainId,seat}) {
 
 
   const {train,addTrain}=TrainData();

@@ -9,7 +9,8 @@ import AddTrain from './pages/Train/AddTrain/AddTrain.jsx'
 import GetAllTrain from './pages/Train/GetAllTrain/GetAllTrain.jsx'
 import SearchTrain from './pages/Train/SearchTrain/SearchTrain.jsx'
 import UpdateTrain from './pages/Train/UpdateTrain/UpdateTrain.jsx'
-
+import TrainSeat from './pages/Train/TrainSeat/TrainSeat.jsx'
+import BookTicket from './pages/Booking/BookTicket/BookTicket.jsx'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -27,8 +28,9 @@ function App() {
             <Route path='/search-Train' element={<SearchTrain />} />
             <Route path='/search-Train' element={<SearchTrain />} />
             <Route path="/update-train/:id" element={<UpdateTrain />} />
-
-          </Routes>
+            <Route path='/train-seat/:id' element={<TrainSeat />} />
+            <Route path ="/book/:id/:seat" element={<BookTicket />} />
+          </Routes> 
       </Router>
     </>
   )
