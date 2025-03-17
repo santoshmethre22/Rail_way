@@ -58,14 +58,6 @@ const bookTrainTicket = async (req, res) => {
 // @route   GET /api/bookings
 
 //
-const getUserBookings = async (req, res) => {
-  try {
-    const bookings = await Booking.find({ user: req.user.id }).populate("train");
-    res.json(bookings);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
 
 
 
@@ -138,11 +130,29 @@ const cancelBooking = async (req, res) => {
   }
 };
 
+
+const BookingHistory = async (req, res) => {
+  try {
+      const userBooking = await Booking.find({ user: req.user._id }).populate("train");
+
+      if (!userBooking || userBooking.length === 0) {
+          return res.status(404).json({ message: "No booking history found." });
+      }
+
+      return res.status(200).json(userBooking);
+
+  } catch (error) {
+      console.error("Error fetching booking history:", error);
+      return res.status(500).json({ message: "Internal server error." });
+  }
+};
+
+
 export {
   bookTrainTicket, 
-  getUserBookings,
    cancelBooking,
-   BookingOftrain
+   BookingOftrain,
+   BookingHistory
 }
 
 

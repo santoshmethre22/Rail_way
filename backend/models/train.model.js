@@ -11,6 +11,8 @@ const TrainSchema = new mongoose.Schema(
     totalSeats: { type: Number, required: true },
     availableSeats: { type: Number, required: true },
     fare: { type: Number, required: true },
+
+    bookings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Booking' }] 
   },
   { timestamps: true }
 );

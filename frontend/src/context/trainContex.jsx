@@ -128,15 +128,23 @@ export const TrainContextProvider=({children})=>{
     }
 
 
-    const getTrainBooking = async ({ id }) => {
+    const getTrainBooking = async (id) => {
         try {
-          const response = await axios.get(`/api/train/get-train-book/${id}`);
-          return response.data; // Return the data directly
+          if (!id) {
+            console.error("Train ID is undefined");
+            return;
+          }
+      
+          console.log("Fetching train booking for ID:", id);
+      
+          const response = await axios.get(`/api/train/get-train-booking/${id}`); // Fixed endpoint URL
+          return response.data; 
         } catch (error) {
           console.error("Error fetching train booking:", error.message);
-          throw error; // Rethrow the error for handling in the calling function
+          throw error;
         }
       };
+      
     return (
         <TrainContext.Provider    
         value={{

@@ -1,0 +1,35 @@
+.booking-item {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background-color: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .booking-item h2 {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .booking-item button {
+    background-color: #ff4d4f;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .booking-item button:hover {
+    background-color: #d9363e;
+  }
+  
+  .booking-item button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

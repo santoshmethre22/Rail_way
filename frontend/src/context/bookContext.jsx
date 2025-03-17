@@ -3,9 +3,9 @@ import axios from "axios";
 
 const BookContext = createContext({});
 
+
 export const BookingContextProvider = ({ children }) => {
   const [bookings, setBookings] = useState([]);
-
   const [trainBooking,setTrainBooking]=useState([]);
 
   // Helper function to get Auth Headers
@@ -15,14 +15,14 @@ export const BookingContextProvider = ({ children }) => {
   };
 
   // Book a ticket
-  const bookTicket = async (trainId, seat) => {
+  const bookTicket = async (trainId, seat, userDetails) => {
     try {
       const response = await axios.post(
-        `/api/booking/book-ticket/${trainId}/${seat}`,
-        {name,age,phone,email,gender},
-
+        `/api/bookings/book-ticket/${trainId}/${seat}`,
+        userDetails, // ✅ Pass userDetails object here
         { headers: getAuthHeaders() }
       );
+  
       // Refresh bookings after booking a ticket
       fetchUserBookings();
       return response.data;
@@ -31,6 +31,7 @@ export const BookingContextProvider = ({ children }) => {
       throw error;
     }
   };
+  
 
   // Get user bookings
   const fetchUserBookings = async () => {
@@ -47,9 +48,9 @@ export const BookingContextProvider = ({ children }) => {
   // Cancel booking
   const cancelBooking = async (userId, trainId, seat) => {
     try {
-      const response = await axios.delete("/api/book/cancelBooking", {
+      const response = await axios.delete(`/api/book/cancelBooking/${userId}/${trainId}/${seat}`, {
         headers: getAuthHeaders(),
-        data: { userId, trainId, seat }, // Send data in the request body
+         // Send data in the request body
       });
       // Refresh bookings after cancellation
       fetchUserBookings();
@@ -60,13 +61,31 @@ export const BookingContextProvider = ({ children }) => {
     }
   };
 
-  const getAllBooking=async(id)=>{
+  // const getAllBooking=async(id)=>{
 
-    const response=await axios.get("",)
+  //   const response=await axios.get("",)
 
-    if(!response) return res .status(403).json("the response is not came");
+  //   if(!response) return res .status(403).json("the response is not came");
 
-    setTrainBooking(response.data);
+  //   setTrainBooking(response.data);
+
+
+  // }
+
+
+  const getUserHistory=async({id})=>{
+
+    try {
+      const response =await axios.get(`api/book/get-user-history/:id`,{
+          headers:getAuthHeaders(),
+      })
+  
+      setBookings(response.data)
+    } catch (error) {
+
+      console.error("Error fetching booking history:", error.message)
+      
+    }
 
 
   }
@@ -77,7 +96,12 @@ export const BookingContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <BookContext.Provider value={{ bookTicket, cancelBooking, fetchUserBookings, bookings }}>
+    <BookContext.Provider value={{ 
+      bookTicket, 
+      cancelBooking, 
+      fetchUserBookings,
+      getUserHistory
+      }}>
       {children}
     </BookContext.Provider>
   );

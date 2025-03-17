@@ -1,83 +1,49 @@
-/* Container */
 .book-ticket-container {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 24px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-  }
-  
-  /* Heading */
-  .book-ticket-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 16px;
-    color: #333;
-    text-align: center;
-  }
-  
-  /* Input Fields */
-  .book-ticket-input,
-  .book-ticket-select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .book-ticket-input:focus,
-  .book-ticket-select:focus {
-    border-color: #3b82f6;
-    outline: none;
-  }
-  
-  /* Read-only fields */
-  .book-ticket-input[readonly] {
-    background-color: #f3f4f6;
-    color: #9ca3af;
-    cursor: not-allowed;
-  }
-  
-  /* Button */
-  .book-ticket-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .book-ticket-button:hover {
-    background-color: #2563eb;
-  }
-  
-  .book-ticket-button:disabled {
-    background-color: #93c5fd;
-    cursor: not-allowed;
-  }
-  
-  /* Message */
-  .book-ticket-message {
-    margin-top: 12px;
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .book-ticket-message.success {
-    color: #10b981;
-  }
-  
-  .book-ticket-message.error {
-    color: #ef4444;
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.book-ticket-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.book-ticket-input,
+.book-ticket-select,
+.book-ticket-button {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.book-ticket-button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.book-ticket-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.book-ticket-message {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.book-ticket-message.success {
+  color: green;
+}
+
+.book-ticket-message.error {
+  color: red;
+}

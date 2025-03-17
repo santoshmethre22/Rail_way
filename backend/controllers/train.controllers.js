@@ -134,17 +134,25 @@ const getAllbookings =async(req,res)=>{
 
 const getTrainBooking = async (req, res) => {
   try {
-    const train = await Train.findById(req.params.id).populate("book");
-    
+    const { id } = req.params; // Destructure the ID
+
+    if (!id) {
+      return res.status(400).json({ message: "Train ID is required" });
+    }
+
+    const train = await Train.findById(id).populate("bookings");
+
     if (!train) {
       return res.status(404).json({ message: "The train is not found" });
     }
 
     return res.status(200).json(train);
   } catch (error) {
+    console.error("Error fetching train booking:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };
+
 
 
 

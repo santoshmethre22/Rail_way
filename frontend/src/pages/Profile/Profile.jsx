@@ -40,7 +40,7 @@ function Profile() {
         <h2 className="profile-name">{user.name}</h2>
                 <h3 className="profile-email">Email: {user.email}</h3>
                 <h3 className="profile-phone">Phone: {user.phone}</h3>
-                <Link to="/booking-history" className="booking-link">View Booking History</Link>
+                <Link to={`/get-user-history/${user.id}`} className="booking-link">View Booking History</Link>
             </div>
         </div>
     );

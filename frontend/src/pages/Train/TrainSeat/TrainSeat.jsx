@@ -5,16 +5,19 @@ import './TrainSeat.css'; // Import CSS file
 
 function TrainSeat() {
   const navigate = useNavigate();
-
-  const {id}=useParams
+  const { id } = useParams(); // ✅ Correct usage of useParams
   const { getTrainBooking } = TrainData();
 
   useEffect(() => {
-    getTrainBooking({ id });
-  }, [id, getTrainBooking]);
+    if (id) {
+      getTrainBooking(id); // ✅ Pass id directly
+    } else {
+      console.error("Train ID is missing in TrainSeat");
+    }
+  }, [id]);
 
   const handleBooking = (seat) => {
-    navigate(`/book/${id}/${seat}`);
+    navigate(`/book-ticket/${id}/${seat}`);
   };
 
   return (

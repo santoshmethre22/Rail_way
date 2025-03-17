@@ -45,7 +45,7 @@ import UserRouter from "./routers/user.route.js";
 import  {trainRouter} from "./routers/train.route.js";
 import BookingRouter from "./routers/booking.route.js";
 import UploadRouter from "./routers/upload.router.js"
-import { updateTrain } from "./controllers/train.controllers.js";
+
 
 app.use("/api/user",UserRouter);
 app.use("/api/train",trainRouter);

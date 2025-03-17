@@ -1,0 +1,29 @@
+.cancel-ticket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Center vertically and horizontally */
+    background-color: #f9f9f9;
+  }
+  
+  .cancel-button {
+    background-color: #ff4d4f;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancel-button:hover {
+    background-color: #d9363e;
+  }
+  
+  .cancel-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
