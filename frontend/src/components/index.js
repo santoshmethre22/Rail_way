@@ -7,8 +7,10 @@ import TrainCard from "./Ticket/TrainCard.jsx";
 import Profile from "./Profile/Profile.jsx";
 import Select from "./Select.jsx";// may be here is the problem
 import Search from "./Search.jsx"
-import Container from "./Container/Container.jsx";
+import SignUp from "./Auth/SignUp.jsx";
 import Input from "./Input.jsx"
+import Login from "./Auth/Login.jsx";
+
 
 export {
     Header,
@@ -20,8 +22,9 @@ export {
     TrainCard,
     Select,
     Search,
-    Container,
-    Input
+    SignUp,
+    Input,
+    Login
 
 
 }

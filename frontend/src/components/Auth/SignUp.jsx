@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import Input from "../index.js";
+import {Input} from "../index.js";
+import authService from "../../server/auth.js";
 
 function SignUp() {
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: ""
@@ -20,10 +21,10 @@ function SignUp() {
   const validate = () => {
     let newErrors = {};
 
-    if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
+    if (!formData.name.trim()) newErrors.name = "Full name is required";
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(formData.email)) {
+    } else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email)) {
       newErrors.email = "Enter a valid email";
     }
 
@@ -36,7 +37,7 @@ function SignUp() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -44,14 +45,20 @@ function SignUp() {
       setSuccess(null);
     } else {
       setErrors({});
-
       console.log("Form submitted:", formData);
 
-      // the method of the auth to be implemented here
-      
-      setSuccess("Account created successfully!");
+      try {
+        const { name, email, password } = formData;
+        const data = await authService.signup({ name, email, password });
+        console.log("Signup success:", data);
 
-      setFormData({ fullName: "", email: "", password: "", confirmPassword: "" });
+        // TODO: dispatch method here
+        setSuccess("Account created successfully!");
+        setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+      } catch (err) {
+        console.error("Signup error:", err);
+        setErrors({ api: "Failed to create account. Please try again." });
+      }
     }
   };
 
@@ -63,12 +70,12 @@ function SignUp() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Full Name"
-            name="fullName"
+            name="name"
             placeholder="Enter your full name"
-            value={formData.fullName}
+            value={formData.name}
             onChange={handleChange}
           />
-          {errors.fullName && <p className="text-xs text-red-600">{errors.fullName}</p>}
+          {errors.name && <p className="text-xs text-red-600">{errors.name}</p>}
 
           <Input
             label="Email"
@@ -100,6 +107,8 @@ function SignUp() {
           {errors.confirmPassword && (
             <p className="text-xs text-red-600">{errors.confirmPassword}</p>
           )}
+
+          {errors.api && <p className="text-xs text-red-600">{errors.api}</p>}
 
           <button
             type="submit"

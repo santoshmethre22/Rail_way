@@ -1,22 +1,22 @@
-import React ,{}from 'react'
-import {useDispatch} from "react-redux"
-import { Header,Footer } from './components/index.js'
+import React ,{useState}from 'react'
+// import {useDispatch} from "react-redux"
+//import { Header,Footer } from './components/index.js'
 import { Outlet } from 'react-router-dom'
-
-const [loading, setLoading] = useState(true)
- const dispatch = useDispatch()
-
-  useEffect(() => {
-    authService.getCurrentUser()
-    .then((userData) => {
-      if (userData) {
-        dispatch(login({userData}))
-      } else {
-        dispatch(logout())
-      }
-    })
-    .finally(() => setLoading(false))
-  }, [])
+import { Header,Footer } from './components/index.js'
+// const [loading, setLoading] = useState(true)
+//  const dispatch = useDispatch()
+import "./App.css"
+  // useEffect(() => {
+  //   authService.getCurrentUser()
+  //   .then((userData) => {
+  //     if (userData) {
+  //       dispatch(login({userData}))
+  //     } else {
+  //       dispatch(logout())
+  //     }
+  //   })
+  //   .finally(() => setLoading(false))
+  // }, [])
 
 
 function App() {

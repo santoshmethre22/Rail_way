@@ -2,7 +2,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-
+import SingUp from "./pages/SingUp.jsx"
+import Login from "./pages/Login.jsx"
+import {Provider } from "react-redux"
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Home from './pages/Home.jsx'
+import store from "./store/store.js"
 
 const router = createBrowserRouter([
   {
@@ -16,17 +21,17 @@ const router = createBrowserRouter([
         {
             path: "/login",
             element: (
-                <AuthLayout authentication={false}>
+                //<AuthLayout authentication={false}>
                     <Login />
-                </AuthLayout>
+               // </AuthLayout>
             ),
         },
         {
             path: "/signup",
             element: (
-                <AuthLayout authentication={false}>
-                    <Signup />
-                </AuthLayout>
+               // <AuthLayout authentication={false}>
+                    <SingUp />
+               // </AuthLayout>
             ),
         },
         // {
@@ -67,7 +72,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <Provider store={store} />
+    <RouterProvider router={router} />
   </StrictMode>,
 )
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Input from "../index.js"; // your custom Input
+import {Input} from "../index.js"; // your custom Input
 import { login } from "../../store/authSlice.js"; // redux action (not used yet)
 
 function Login() {
