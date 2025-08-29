@@ -1,9 +1,10 @@
 import React ,{}from 'react'
+import {useDispatch} from "react-redux"
 import { Header,Footer } from './components/index.js'
 import { Outlet } from 'react-router-dom'
 
 const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
+ const dispatch = useDispatch()
 
   useEffect(() => {
     authService.getCurrentUser()

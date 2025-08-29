@@ -8,7 +8,7 @@ import Profile from "./Profile/Profile.jsx";
 import Select from "./Select.jsx";// may be here is the problem
 import Search from "./Search.jsx"
 import Container from "./Container/Container.jsx";
-
+import Input from "./Input.jsx"
 
 export {
     Header,
@@ -20,7 +20,8 @@ export {
     TrainCard,
     Select,
     Search,
-    Container
+    Container,
+    Input
 
 
 }

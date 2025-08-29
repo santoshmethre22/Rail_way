@@ -29,37 +29,37 @@ const router = createBrowserRouter([
                 </AuthLayout>
             ),
         },
-        {
-            path: "/all-posts",
-            element: (
-                <AuthLayout authentication>
-                    {" "}
-                    <AllPosts />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/add-post",
-            element: (
-                <AuthLayout authentication>
-                    {" "}
-                    <AddPost />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/edit-post/:slug",
-            element: (
-                <AuthLayout authentication>
-                    {" "}
-                    <EditPost />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/post/:slug",
-            element: <Post />,
-        },
+        // {
+        //     path: "/all-posts",
+        //     element: (
+        //         <AuthLayout authentication>
+        //             {" "}
+        //             <AllPosts />
+        //         </AuthLayout>
+        //     ),
+        // },
+        // {
+        //     path: "/add-post",
+        //     element: (
+        //         <AuthLayout authentication>
+        //             {" "}
+        //             <AddPost />
+        //         </AuthLayout>
+        //     ),
+        // },
+        // {
+        //     path: "/edit-post/:slug",
+        //     element: (
+        //         <AuthLayout authentication>
+        //             {" "}
+        //             <EditPost />
+        //         </AuthLayout>
+        //     ),
+        // },
+        // {
+        //     path: "/post/:slug",
+        //     element: <Post />,
+        // },
     ],
 },
 ])
