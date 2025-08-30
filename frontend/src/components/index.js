@@ -12,6 +12,8 @@ import Login from "./Auth/Login.jsx";
 import TrainCard from "./Train/TrainCard.jsx";
 import BookTicket from "./Ticket/BookTicket.jsx"
 import Button from "./Button.jsx";
+import SeatCard from "./Train/SeatCard.jsx"
+
 
 export {
     Header,
@@ -27,6 +29,7 @@ export {
     Input,
     Login,
     BookTicket,
-    Button
+    Button,
+    SeatCard
 
 }
