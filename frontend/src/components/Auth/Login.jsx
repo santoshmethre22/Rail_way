@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import {Input} from "../index.js"; // your custom Input
-import { login } from "../../store/authSlice.js"; // redux action (not used yet)
+import { Input } from "../index.js"; // your custom Input
+//import { login } from "../../store/authSlice.js"; // redux action (not used yet)
+import authService from "../../server/auth.js";
 
 function Login() {
   const [form, setForm] = useState({
@@ -10,13 +11,15 @@ function Login() {
 
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Added loading state
+  const [apiError, setApiError] = useState(null); // Added API error state
 
   const validate = () => {
     let newErrors = {};
 
     if (!form.email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(form.email)) {
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "Enter a valid email";
     }
 
@@ -30,20 +33,39 @@ function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    // Clear errors when user starts typing
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+    if (apiError) {
+      setApiError(null);
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setSuccess(null);
-    } else {
-      setErrors({});
-      console.log("Login submitted:", form);
-      setSuccess("Logged in successfully!");
+      return;
+    }
+    
+    setErrors({});
+    setIsLoading(true);
+    setApiError(null);
+    
+    try {
+      const data = await authService.login(form);
+      console.log("the login data ", data);
       setForm({ email: "", password: "" });
+      setSuccess("Login successful!");
       // here you can dispatch(login(form)) if using redux
+    } catch (error) {
+      console.error("Login error:", error);
+      setApiError(error.message || "An error occurred during login");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,11 +94,16 @@ function Login() {
           />
           {errors.password && <p className="text-xs text-red-600">{errors.password}</p>}
 
+          {apiError && <p className="text-xs text-red-600">{apiError}</p>}
+
           <button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+            disabled={isLoading}
+            className={`w-full text-white py-2 rounded ${
+              isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"
+            }`}
           >
-            Submit
+            {isLoading ? "Logging in..." : "Submit"}
           </button>
         </form>
 

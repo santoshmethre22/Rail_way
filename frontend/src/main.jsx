@@ -9,6 +9,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
 
+import BookingDashboard from './pages/BookingDashboard.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -34,15 +35,12 @@ const router = createBrowserRouter([
                // </AuthLayout>
             ),
         },
-        // {
-        //     path: "/all-posts",
-        //     element: (
-        //         <AuthLayout authentication>
-        //             {" "}
-        //             <AllPosts />
-        //         </AuthLayout>
-        //     ),
-        // },
+         {
+             path: "/booking",
+            element: (
+                 <BookingDashboard />
+            ),
+        },
         // {
         //     path: "/add-post",
         //     element: (

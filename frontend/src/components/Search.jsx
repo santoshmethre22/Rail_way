@@ -1,80 +1,113 @@
-// import React, { useState } from "react";
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent } from "@/components/ui/card";
+import React, { useState } from 'react';
+import { Input, Select } from "./index.js";
 
-// export default function TrainSearch({ onSearch }) {
-//   const [source, setSource] = useState("");
-//   const [destination, setDestination] = useState("");
-//   const [date, setDate] = useState("");
+const RailwaySearch = () => {
+  const [trainName, setTrainName] = useState('');
+  const [source, setSource] = useState('');
+  const [destination, setDestination] = useState('');
+  const [trainNumber, setTrainNumber] = useState('');
+  const [travelDate, setTravelDate] = useState('');
+  const [selectType, setSelecttype] = useState(null);
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (!source || !destination || !date) {
-//       alert("Please fill all fields!");
-//       return;
-//     }
-//     onSearch({ source, destination, date });
-//   };
+  const resetForm = () => {
+    setTrainName('');
+    setSource('');
+    setDestination('');
+    setTrainNumber('');
+    setTravelDate('');
+  };
 
-//   return (
-//     <Card className="max-w-xl mx-auto mt-8 shadow-lg rounded-2xl">
-//       <CardContent className="p-6">
-//         <h2 className="text-xl font-bold mb-4 text-center">Search Trains</h2>
-//         <form onSubmit={handleSubmit} className="grid gap-4">
-//           {/* Source */}
-//           <div>
-//             <label className="block text-sm font-medium mb-1">Source</label>
-//             <input
-//               type="text"
-//               placeholder="Enter source station"
-//               value={source}
-//               onChange={(e) => setSource(e.target.value)}
-//               className="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
-//             />
-//           </div>
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Date not selected';
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
 
-//           {/* Destination */}
-//           <div>
-//             <label className="block text-sm font-medium mb-1">Destination</label>
-//             <input
-//               type="text"
-//               placeholder="Enter destination station"
-//               value={destination}
-//               onChange={(e) => setDestination(e.target.value)}
-//               className="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
-//             />
-//           </div>
+  const handleSelect = (e) => {
+    setSelecttype(e.target.value);
+  };
 
-//           {/* Date */}
-//           <div>
-//             <label className="block text-sm font-medium mb-1">Date</label>
-//             <input
-//               type="date"
-//               value={date}
-//               onChange={(e) => setDate(e.target.value)}
-//               className="w-full p-2 border rounded-lg focus:ring focus:ring-blue-300"
-//             />
-//           </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({ trainName, trainNumber, source, destination, travelDate });
+  };
 
-//           {/* Button */}
-//           <Button type="submit" className="w-full mt-2 bg-blue-600 hover:bg-blue-700">
-//             Search
-//           </Button>
-//         </form>
-//       </CardContent>
-//     </Card>
-//   );
-// }
-
-import React from 'react'
-
-function Search() {
   return (
-    <div>
-      hello search 
+    <div className="railway-search-container">
+      <div className="search-header">
+        <h1>Railway Ticket Booking</h1>
+        <p>Book your train tickets in just a few clicks</p>
+      </div>
+
+      <Select
+        label="Select type"
+        options={["trainNumber", "trainName"]}
+        value={selectType}
+        onChange={handleSelect}
+      />
+
+      <div>
+        <form onSubmit={handleSubmit}>
+          {selectType && (
+            <div>
+              {selectType === "trainNumber" && (
+                <Input
+                  label="Train Number"
+                  placeholder="Enter train number"
+                  value={trainNumber}
+                  onChange={(e) => setTrainNumber(e.target.value)}
+                />
+              )}
+
+              {selectType === "trainName" && (
+                <Input
+                  label="Train Name"
+                  placeholder="Enter Train Name"
+                  value={trainName}
+                  onChange={(e) => setTrainName(e.target.value)}
+                />
+              )}
+            </div>
+          )}
+
+          {!selectType && (
+            <div>
+              <Input
+                label="From"
+                placeholder="Enter source"
+                value={source}
+                onChange={(e) => setSource(e.target.value)}
+              />
+              <Input
+                label="To"
+                placeholder="Enter destination"
+                value={destination}
+                onChange={(e) => setDestination(e.target.value)}
+              />
+            </div>
+          )}
+
+          <div>
+            <Input
+              label="Date"
+              placeholder="Select date"
+              type="date"
+              value={travelDate}
+              onChange={(e) => setTravelDate(e.target.value)}
+            />
+          </div>
+
+          <button type="submit">Search</button>
+        </form>
+      </div>
+
+      {travelDate && (
+        <div className="selected-date">
+          <h3>Showing results for: {formatDate(travelDate)}</h3>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Search
-
+export default RailwaySearch;
