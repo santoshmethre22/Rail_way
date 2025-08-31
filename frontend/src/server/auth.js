@@ -36,10 +36,10 @@ class AuthService {
       });
       
       // Store token if received
-      // if (data.token) {
-      //   localStorage.setItem("token", data.token);
-      //   this.api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
-      // }
+       if (data.token) {
+       localStorage.setItem("token", data.token);
+       this.api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+     }
       
       return data;
     } catch (error) {
@@ -48,18 +48,46 @@ class AuthService {
   }
 
   // Initialize authentication token if exists
-  // initializeAuth() {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     this.api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //   }
-  // }
+   initializeAuth() {
+ const token = localStorage.getItem("token");
+    if (token) {
+      this.api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
+  }
 
   // Future methods
-  // async getCurrentUser() {}
-  // async logout() {}
-  // async editProfile() {}
-  // async uploadPhoto() {}
+   async getCurrentUser() {
+     
+    const data =await this.api("/api/user/get-user")
+    if(data) {
+      console.log(data)
+
+    }
+    else{
+      console.log("no data from the backend");
+    }
+    // radha radha
+
+    return data;
+   }
+  async logout() {
+    localStorage.removeItem("token");
+    delete this.api.defaults.headers.common["Authorization"];
+  }
+
+  //TODO : to implement this method next 
+   async updateProfile(data) {
+  
+    try {
+        const d=await this.api.patch("/api/user/update-user",{data});
+        const {message,user}=d;
+        
+    } catch (error) {
+        throw error;
+    }
+
+   }
+   async uploadPhoto() {}
 }
 
 const authService = new AuthService();

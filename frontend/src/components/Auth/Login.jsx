@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Input } from "../index.js"; // your custom Input
 //import { login } from "../../store/authSlice.js"; // redux action (not used yet)
 import authService from "../../server/auth.js";
+import { login } from "../../store/authSlice.js";
+import {useDispatch} from "react-redux"
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [form, setForm] = useState({
@@ -9,11 +12,13 @@ function Login() {
     password: "",
   });
 
+  const navigate=useNavigate();
+
+  const dispatch=useDispatch();
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Added loading state
   const [apiError, setApiError] = useState(null); // Added API error state
-
   const validate = () => {
     let newErrors = {};
 
@@ -49,18 +54,20 @@ function Login() {
       setErrors(validationErrors);
       setSuccess(null);
       return;
-    }
-    
+    }    
     setErrors({});
     setIsLoading(true);
     setApiError(null);
-    
     try {
       const data = await authService.login(form);
-      console.log("the login data ", data);
+     // console.log("the login data ", data);
       setForm({ email: "", password: "" });
       setSuccess("Login successful!");
-      // here you can dispatch(login(form)) if using redux
+      const user=await authService.getCurrentUser();
+      dispatch(login(user));
+      
+    // here you can dispatch(login(form)) if using redux
+      navigate("/");
     } catch (error) {
       console.error("Login error:", error);
       setApiError(error.message || "An error occurred during login");

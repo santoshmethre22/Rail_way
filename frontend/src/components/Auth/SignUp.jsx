@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import {Input} from "../index.js";
 import authService from "../../server/auth.js";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+  const navigate=useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,11 +52,14 @@ function SignUp() {
       try {
         const { name, email, password } = formData;
         const data = await authService.signup({ name, email, password });
-        console.log("Signup success:", data);
+       // console.log("Signup success:", data);
 
-        // TODO: dispatch method here
+       
         setSuccess("Account created successfully!");
         setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+        
+        navigate("/login")
+        
       } catch (err) {
         console.error("Signup error:", err);
         setErrors({ api: "Failed to create account. Please try again." });

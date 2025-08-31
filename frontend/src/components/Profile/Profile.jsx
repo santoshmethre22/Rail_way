@@ -1,18 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 
-function Profile({
-  name = "John Doe",
-  role = "Web Developer",
-  email = "johndoe@example.com",
-  phone = "987 654 3210",
-  image = "https://via.placeholder.com/150",
-  social = {
+function Profile() {
+
+  const role="Web Developer";
+const social = {
     facebook: "#",
     twitter: "#",
     instagram: "#",
-  },
-}) {
+  }
+
+
+  const {status,userData}=useSelector((state)=>state.auth);
+
+  
+  const [user,setUser]=useState()
+  
+   const  name="sam"
+   const  email="sam@gmail.com"
+   const  phone="898903093"
+   const  image="https://via.placeholder.com/150"
+
+useEffect(()=>{
+
+   console.log("this is user data",userData)
+   },[]);
+  
+
+  if(!status){
+    return (
+      <div>
+        just login 
+      </div>
+    )
+  }
+
   return (
+
+
     <section className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-3xl flex flex-col md:flex-row">
         

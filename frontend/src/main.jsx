@@ -8,6 +8,8 @@ import {Provider } from "react-redux"
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
+import { Profile } from './components/index.js'
+
 
 import BookingDashboard from './pages/BookingDashboard.jsx'
 const router = createBrowserRouter([
@@ -41,15 +43,14 @@ const router = createBrowserRouter([
                  <BookingDashboard />
             ),
         },
-        // {
-        //     path: "/add-post",
-        //     element: (
-        //         <AuthLayout authentication>
-        //             {" "}
-        //             <AddPost />
-        //         </AuthLayout>
-        //     ),
-        // },
+        {
+            path: "/profile",
+            element: (
+                
+                <Profile />
+                
+            ),
+        },
         // {
         //     path: "/edit-post/:slug",
         //     element: (
@@ -70,8 +71,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Provider store={store} />
+    <Provider store={store} >
     <RouterProvider router={router} />
+    </Provider>
   </StrictMode>,
 )
 

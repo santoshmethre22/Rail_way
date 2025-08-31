@@ -11,7 +11,7 @@ const authSlice = createSlice({
     reducers: {
         login: (state, action) => {
             state.status = true;
-            state.userData = action.payload.userData;
+            state.userData = action.payload.user;
         },
         logout: (state, action) => {
             state.status = false;
@@ -26,6 +26,12 @@ const authSlice = createSlice({
             if (state.userData) {
                 state.userData.profileImage = action.payload.profileImage;
             }
+        },
+
+        updateProfile:(state,action)=>{
+
+            state.userData=action.payload.user
+
         }
 
 
