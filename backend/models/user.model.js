@@ -45,7 +45,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Static method
 UserSchema.statics.isAdmin = function (role) {
   return role === "admin";
 };

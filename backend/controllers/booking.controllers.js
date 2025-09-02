@@ -1,9 +1,6 @@
 import { Booking } from "../models/booking.model.js";
 import { Train } from "../models/train.model.js";
 import mongoose from "mongoose";
-// @desc    Book a ticket
-// @route   POST /api/bookings
-
 
 const bookTrainTicket = async (req, res) => {
   try {

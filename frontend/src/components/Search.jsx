@@ -7,7 +7,7 @@ const RailwaySearch = () => {
   const [destination, setDestination] = useState('');
   const [trainNumber, setTrainNumber] = useState('');
   const [travelDate, setTravelDate] = useState('');
-  const [selectType, setSelecttype] = useState(null);
+  const [selectType, setSelecttype] = useState("source");
 
   const resetForm = () => {
     setTrainName('');

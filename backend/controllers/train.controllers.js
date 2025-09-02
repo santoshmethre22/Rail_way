@@ -1,8 +1,5 @@
 
 import { Train } from "../models/train.model.js";
-
-import { User } from "../models/user.model.js";
-
 import { Booking } from "../models/booking.model.js";
 
 
@@ -66,50 +63,86 @@ const getAllTrains = async (req, res) => {
 // @route   GET /api/trains/search
 const searchTrains = async (req, res) => {
   try {
-    const {source, destination,trainName:name,trainNumber:number,travelDate:date ,selectType:type||} = req.query;
-    
-    if(type==null) res.status(404).json({
-      message:"please specif"
-    })
-    const trains = await Train.find({
-      source: { $regex: new RegExp(source, "i") }, // Allows partial matches (case-insensitive)
-      destination: { $regex: new RegExp(destination, "i") }
-    });
+    const {
+      source,
+      destination,
+      trainName: name,
+      trainNumber: number,
+      travelDate: date,
+      selectType: type
+    } = req.query;
 
-    if (trains.length === 0) {
-      return res.status(404).json({ message: "No trains available for the given route" });
+    if (!type) {
+      return res.status(400).json({ message: "Please provide search type" });
     }
 
-    res.json(trains);
+    if (!date) {
+      return res.status(400).json({ message: "Travel date is required" });
+    }
+
+    let train = [];
+
+    if (type === "source") {
+      if (!source || !destination) {
+        return res.status(400).json({ message: "Source and destination required" });
+      }
+
+      train = await Train.find({
+        source: { $regex: new RegExp(source, "i") },
+        destination: { $regex: new RegExp(destination, "i") },
+        travelDate: date
+      });
+    } 
+    else if (type === "trainNumber") {
+      if (!number) return res.status(400).json({ message: "Train number required" });
+      train = await Train.find({
+        number,
+        travelDate: date
+      });
+    } 
+    else if (type === "trainName") {
+      if (!name) return res.status(400).json({ message: "Train name required" });
+      train = await Train.find({
+        name: { $regex: new RegExp(name, "i") },
+        travelDate: date
+      });
+    } 
+    else {
+      return res.status(400).json({ message: "Invalid search type" });
+    }
+
+    if (!train || train.length === 0) {
+      return res.status(404).json({ message: "No trains available for the given input" });
+    }
+
+    return res.status(200).json({
+      message: "Trains found",
+      train
+    });
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 
-
+// dont implement this method 
 
 const updateTrain = async (req, res) => {
   try {
     const train = await Train.findByIdAndUpdate(req.params.id, req.body, { new: true });
-
     if (!train) {
       return res.status(404).json({ message: "The train with that ID is not found" });
     }
-
     res.json({ message: "Train updated successfully", train });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-
+// TODO to implement this method in bettter way
 const deleteTrain=async (req,res)=>{
   try {
     
     const train =await Train.findById(req.param.id);
-
     if(!train) {
 
       res.status(404).json({
@@ -131,24 +164,16 @@ const deleteTrain=async (req,res)=>{
     
   }
 };
-
-
+// this method is not required
 const getAllbookings =async(req,res)=>{
-
   try {
-
-
     const booking =await Booking.find().populate("user train");
-
     if (!booking ){
-
       res.status(404).json({message:"the booking is not found "})
     }
-
     res.status(500).json(booking);   
-
   } catch (error) {
-    
+  
   }
 
 }
@@ -156,28 +181,20 @@ const getAllbookings =async(req,res)=>{
 
 const getTrainBooking = async (req, res) => {
   try {
-    const { id } = req.params; // Destructure the ID
-
+    const { id } = req.params; 
     if (!id) {
       return res.status(400).json({ message: "Train ID is required" });
     }
-
     const train = await Train.findById(id).populate("bookings");
-
     if (!train) {
       return res.status(404).json({ message: "The train is not found" });
     }
-
     return res.status(200).json(train);
   } catch (error) {
     console.error("Error fetching train booking:", error.message);
     return res.status(500).json({ message: error.message });
   }
 };
-
-
-
-
 
 export { 
   addTrain,
