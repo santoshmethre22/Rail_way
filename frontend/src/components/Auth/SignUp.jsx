@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import {Input} from "../index.js";
 import authService from "../../server/auth.js";
 import { useNavigate } from "react-router-dom";
-
+import {Select } from "../index.js"
 function SignUp() {
   const navigate=useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    role:""
   });
 
   const [errors, setErrors] = useState({});
@@ -115,6 +116,10 @@ function SignUp() {
 
           {errors.api && <p className="text-xs text-red-600">{errors.api}</p>}
 
+          <Select
+            placeholder="Select role"
+            option={["admin,user"]}
+          />
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"

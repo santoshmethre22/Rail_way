@@ -29,7 +29,7 @@ const RailwaySearch = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ trainName, trainNumber, source, destination, travelDate });
+    console.log({ trainName, trainNumber, source, destination, travelDate,selectType });
   };
 
   return (

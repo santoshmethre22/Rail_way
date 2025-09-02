@@ -6,17 +6,41 @@ import { User } from "../models/user.model.js";
 import { Booking } from "../models/booking.model.js";
 
 
-// @desc    Add a new train (Admin Only)
+//   Add a new train (Admin Only)
 // @route   POST /api/trains
 const addTrain = async (req, res) => {
   try {
-    const { trainNumber, name, source, destination, departureTime, arrivalTime, totalSeats, fare } = req.body;
+    const { 
+      name,
+      number,  
+      source,
+      destination,
+      departure,
+      arrival,
+      duration,
+      stations
+    } = req.body;
 
-    // Check if train already exists
-  
-    if (await Train.findOne({ trainNumber })) return res.status(400).json({ message: "Train already exists" });
+    
+    const existingTrain = await Train.findOne({
+      $or: [{ number }, { name }]
+    });
 
-   const  train = new Train({ trainNumber, name, source, destination, departureTime, arrivalTime, totalSeats, availableSeats: totalSeats, fare });
+    if (existingTrain) {
+      return res.status(400).json({ message: "Train already exists" });
+    }
+
+
+    const train = new Train({
+      name,
+      number,
+      source,
+      destination,
+      departure,
+      arrival,
+      duration,
+      stations
+    });
 
     await train.save();
 
@@ -26,29 +50,27 @@ const addTrain = async (req, res) => {
   }
 };
 
-// @desc    Get all trains
-// @route   GET /api/trains
+//   Get all trains
+//  GET /api/trains
 const getAllTrains = async (req, res) => {
   try {
+   const trains = await Train.find().select("-bookings -__v -createdAt -updatedAt");
 
-    // find method ---mongoose---
-    const trains = await Train.find();
     res.json(trains);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// @desc    Search for trains
+//      Search for trains
 // @route   GET /api/trains/search
 const searchTrains = async (req, res) => {
   try {
-    const { source, destination } = req.query;
-
-    if (!source || !destination) {
-      return res.status(400).json({ message: "Source and destination are required" });
-    }
-
+    const {source, destination,trainName:name,trainNumber:number,travelDate:date ,selectType:type||} = req.query;
+    
+    if(type==null) res.status(404).json({
+      message:"please specif"
+    })
     const trains = await Train.find({
       source: { $regex: new RegExp(source, "i") }, // Allows partial matches (case-insensitive)
       destination: { $regex: new RegExp(destination, "i") }

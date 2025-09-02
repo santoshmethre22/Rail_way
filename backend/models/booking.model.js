@@ -10,9 +10,9 @@ const BookingSchema = new mongoose.Schema(
     gender: { type: String, enum: ["male", "female"] }, // Fixed enum
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     train: { type: mongoose.Schema.Types.ObjectId, ref: "Train", required: true },
-    seats: { type: Number, required: true },// look here what is going on ------->
+    seats: { type: Number, required: true },
     totalFare: { type: Number, required: true },
-    status: { type: String, enum: ["booked", "notbooked"], default: "notbooked" }, // Fixed typo
+    status: { type: String, enum: ["confirm", "book"], default: "book" }, // Fixed typo
   },
   { timestamps: true }
 );
@@ -22,7 +22,7 @@ BookingSchema.statics.isBooked = async function (trainId, seatNumber) {
   const booking = await this.findOne({
     train: trainId,
     seats: seatNumber,
-    status: "booked",
+    status: "confirm",
   });
 
   return !!booking;

@@ -38,6 +38,7 @@ function BookTicket({ train, seatNumber, className }) {
         <Input label="Phone" name="phone" type="tel" value={userData.phone} onChange={handleChange} placeholder="Enter Phone" />
         <Input label="Age" name="age" type="number" value={userData.age} onChange={handleChange} placeholder="Enter Age" />
         
+        
         <Select 
         options={["Male", "Female", "Other"]} 
         label="Gender" name="gender" 

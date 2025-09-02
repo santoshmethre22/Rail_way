@@ -1,50 +1,65 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import bcrypt from "bcrypt"; // <-- You forgot this
 
 const UserSchema = new mongoose.Schema(
   {
-    name: { type: String,
-    
-    required: true }
-    ,
-    email: { type: String, required: true,
-       unique: true },
-    password: { type: String, 
-      required: true },
-   // phone: {type:Number,require:true},
-    role: { type: String, enum: ["user", "admin"], default: "user" }, // User roles
+    name: { 
+      type: String,
+      required: true
+    },
+    email: { 
+      type: String, 
+      required: true,
+      unique: true 
+    },
+    password: { 
+      type: String, 
+      required: true 
+    },
+    role: { 
+      type: String, 
+      enum: ["user", "admin"], 
+      default: "user" 
+    }, 
     
     files: [
       {
-        url: { type: String }, // Cloudinary URL
-        fileType: { type: String }, // image or video
+        url: { type: String }, 
+        fileType: { type: String }, 
         uploadedAt: { type: Date, default: Date.now }
       }
     ],
 
-    phone:{
-      type:String ,
-      default:"0000000000"
+    phone: {
+      type: String,
+      default: "0000000000"
     },
 
-  otp: { type: String }, // Stores OTP
-  otpExpires: { type: Date }, // OTP Expiration Time
-  isVerified: { type: Boolean, default: false }, 
-    
+    otp: { type: String }, // Stores OTP
+    otpExpires: { type: Date }, // OTP Expiration Time
+    isVerified: { 
+      type: Boolean, 
+      default: false 
+    }, 
   },
   { timestamps: true }
 );
 
+// Static method
+UserSchema.statics.isAdmin = function (role) {
+  return role === "admin";
+};
 
-UserSchema.static.isAdmin=()=>{
+// Pre-save hook for password hashing
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
 
+// Instance method for checking password
+UserSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
 
-    if(this.role==="admin") return true;
-
-    return false;
-
-
-}
-
-
-export  const User=mongoose.model("User",UserSchema)
-
+export const User = mongoose.model("User", UserSchema);
