@@ -16,59 +16,79 @@ function AddTrain() {
     duration: "",
   });
 
-  // Handle train input change
+
   const handleTrainChange = (e) => {
     const { name, value } = e.target;
     setTrain({ ...train, [name]: value });
   };
 
-  // Handle station change
   const handleStationChange = (index, field, value) => {
     const newStations = [...stations];
     newStations[index][field] = value;
     setStations(newStations);
   };
 
-  // Add new station input row
+
   const handleAddStation = () => {
     setStations([...stations, { name: "", date: "", time: "" }]);
   };
 
-  // Submit form
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Train:", train);
-    console.log("Stations:", stations);
 
-    try {
-      const payload = {
-        ...train,
-        stations,
-      };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      const { data } = await trainService.addTrain(payload);
-
-      alert("Train added successfully!");
-      console.log("Response:", data);
-
-      // Reset form
-      setTrain({
-        name: "",
-        number: "",
-        source: "",
-        destination: "",
-        departureDate: "",
-        departureTime: "",
-        arrivalDate: "",
-        arrivalTime: "",
-        duration: "",
-      });
-      setStations([{ name: "", date: "", time: "" }]);
-    } catch (error) {
-      console.error("Error adding train:", error);
-      alert("Failed to add train. Please try again.");
+  try {
+    if (!train.departureDate || !train.departureTime || !train.arrivalDate || !train.arrivalTime) {
+      alert("Please fill in all date and time fields.");
+      return;
     }
-  };
+
+    const departureDateTime = new Date(`${train.departureDate}T${train.departureTime}:00`);
+    const arrivalDateTime = new Date(`${train.arrivalDate}T${train.arrivalTime}:00`);
+
+    const payload = {
+      name: train.name,
+      number: train.number,
+      source: train.source,
+      destination: train.destination,
+      departureDate: departureDateTime,
+      arrivalDate: arrivalDateTime,
+      duration: train.duration,
+      stations: stations.map((s) => ({
+      name: s.name,
+      date: new Date(`${s.date}T${s.time}:00`),
+      })),
+    };
+
+    const  data = await trainService.addTrain(payload);
+    
+    console.log("the data is ",data);
+    if (!data) {
+      throw new Error("Train not created");
+    }
+
+    alert("Train added successfully!");
+    console.log("Response--->:", train);
+
+  
+    setTrain({
+      name: "",
+      number: "",
+      source: "",
+      destination: "",
+      departureDate: "",
+      departureTime: "",
+      arrivalDate: "",
+      arrivalTime: "",
+      duration: "",
+    });
+    setStations([{ name: "", date: "", time: "" }]);
+  } catch (error) {
+    console.error("Error adding train:", error);
+    alert("Failed to add train. Please try again.");
+  }
+};
+
 
   return (
     <div className="max-w-2xl mx-auto mt-6 p-6 border rounded-2xl shadow-md bg-white">
@@ -100,7 +120,7 @@ function AddTrain() {
           className="w-full px-3 py-2 border rounded-lg"
         />
 
-        {/* Departure */}
+      
         <div className="grid grid-cols-2 gap-3">
           <input
             type="date"

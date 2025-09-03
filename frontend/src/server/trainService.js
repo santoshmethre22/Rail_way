@@ -14,41 +14,79 @@ class TrainService {
     }
   }
 
-  async addTrain({
-    name,
-    number,
-    source,
-    destination,
-    departureDate,
-    arrivalDate,
-    arrivalTime,
-    departureTime,
-    duration,
-    stations,
-  }) {
-    try {
-      const { data } = await this.api.post("/api/train/add-train", {
-        name,
-        number,
-        source,
-        destination,
-         departureDate,
-        arrivalDate,
-        arrivalTime,
-        departureTime,
-        duration,
-        stations,
-      });
+ async addTrain({
+      name,
+      number,
+      source,
+      destination,
+      departureDate,
+      arrivalDate,
+      duration,
+      stations,
+}) {
+  try {
+    const response = await this.api.post("/api/train/add-train", {
+      name,
+      number,
+      source,
+      destination,
+      departureDate,
+      arrivalDate,
+      duration,
+      stations,
+    });
 
-      return data;
+    console.log(" the message ", response.data.message);
+    console.log(" the train", response.data.train);
+
+    // return train object
+    return response.data.train;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to add train");
+  }
+}
+
+
+  async getAllTrain(){
+    try {
+        const res=this.api.get("/api/train/get-all-trains");
+        console.log("the res ",res)
     } catch (error) {
-     
-      throw new Error(
-        error.response?.data?.message || "Failed to add train"
-      );
+        throw new Error(error.res?.data?.message || "Failed to add train");
     }
+
   }
 
+  async searchTrain({
+      source,
+      destination,
+      name,
+      number,
+      departureDate  ,
+      selectType: type
+  }){
+    try {
+    const res=await this.api.get("/api/tain/search-train",{
+      source,
+      destination,
+      name,
+      number,
+      departureDate,
+      type
+    })
+
+
+    //if()
+  
+    return res.data.trains;
+      
+    } catch (error) {
+      
+    }
+
+  }
+
+  
 
   
 }

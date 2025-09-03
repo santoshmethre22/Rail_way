@@ -3,8 +3,6 @@ import { Train } from "../models/train.model.js";
 import { Booking } from "../models/booking.model.js";
 
 
-//   Add a new train (Admin Only)
-// @route   POST /api/trains
 const addTrain = async (req, res) => {
   try {
     const { 
@@ -14,8 +12,6 @@ const addTrain = async (req, res) => {
         destination,
          departureDate,
     arrivalDate,
-    arrivalTime,
-    departureTime,
         duration,
         stations,
     } = req.body;
@@ -37,8 +33,7 @@ const addTrain = async (req, res) => {
         destination,
          departureDate,
     arrivalDate,
-    arrivalTime,
-    departureTime,
+
         duration,
         stations,
     });
@@ -51,41 +46,43 @@ const addTrain = async (req, res) => {
   }
 };
 
-//   Get all trains
-//  GET /api/trains
+
 const getAllTrains = async (req, res) => {
   try {
    const trains = await Train.find().select("-bookings -__v -createdAt -updatedAt");
-
-    res.json(trains);
+    if(!trains) {
+      return res.status(502).json({
+        message:" no train available "
+      })
+    }
+    return res.status(202).json({
+      message:"data fetched successfully",
+      trains
+    })
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-//      Search for trains
-// @route   GET /api/trains/search
+
 const searchTrains = async (req, res) => {
   try {
     const {
       source,
       destination,
-      trainName: name,
-      trainNumber: number,
-      travelDate: date,
-      selectType: type
-    } = req.query;
+       name,
+       number,
+     departureDate,
+      type
+    } = req.body;
 
     if (!type) {
       return res.status(400).json({ message: "Please provide search type" });
     }
-
-    if (!date) {
+    if (!departureDate) {
       return res.status(400).json({ message: "Travel date is required" });
     }
-
     let train = [];
-
     if (type === "source") {
       if (!source || !destination) {
         return res.status(400).json({ message: "Source and destination required" });
@@ -94,21 +91,22 @@ const searchTrains = async (req, res) => {
       train = await Train.find({
         source: { $regex: new RegExp(source, "i") },
         destination: { $regex: new RegExp(destination, "i") },
-        travelDate: date
+        departureDate: departureDate
       });
     } 
+
     else if (type === "trainNumber") {
       if (!number) return res.status(400).json({ message: "Train number required" });
       train = await Train.find({
         number,
-        travelDate: date
+        departureDate
       });
     } 
     else if (type === "trainName") {
       if (!name) return res.status(400).json({ message: "Train name required" });
       train = await Train.find({
         name: { $regex: new RegExp(name, "i") },
-        travelDate: date
+        departureDate
       });
     } 
     else {
@@ -120,7 +118,7 @@ const searchTrains = async (req, res) => {
     }
 
     return res.status(200).json({
-      message: "Trains found",
+      message: "Trains found the ",
       train
     });
   } catch (error) {
@@ -128,7 +126,6 @@ const searchTrains = async (req, res) => {
   }
 };
 
-// dont implement this method 
 
 const updateTrain = async (req, res) => {
   try {
@@ -142,7 +139,7 @@ const updateTrain = async (req, res) => {
   }
 };
 
-// TODO to implement this method in bettter way
+
 const deleteTrain=async (req,res)=>{
   try {
     

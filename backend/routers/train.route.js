@@ -7,7 +7,8 @@ import {
     updateTrain,
     deleteTrain,
     getAllbookings,
-    getTrainBooking
+    getTrainBooking,
+    
 } from "../controllers/train.controllers.js";
 
 import { protect } from "../middlewares/auth.middleware.js";
@@ -18,8 +19,8 @@ const trainRouter = express.Router();
 
 trainRouter.post("/add-train", protect, addTrain); 
 
-trainRouter.get("/get-all-trains", getAllTrains); //
-trainRouter.get("/search-trains", searchTrains); 
+trainRouter.get("/get-all-trains", getAllTrains); 
+trainRouter.get("/search-train", searchTrains); 
 trainRouter.patch("/update-train/:id", protect,updateTrain); 
 trainRouter.delete("/delete-train/:id", protect, adminAuth, deleteTrain);
 trainRouter.get("/get-all-bookings", protect, adminAuth, getAllbookings);

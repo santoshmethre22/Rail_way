@@ -32,14 +32,6 @@ const TrainSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    departureTime: {
-      type: String,
-      required: true,
-    },
-    arrival: {
-      type: Date,
-      required: true,
-    },
     duration: {
       type: String,
       required: true,
@@ -47,9 +39,8 @@ const TrainSchema = new mongoose.Schema(
     },
     availableSeats: {
       type: Number,
-      default:100
+      default: 100,
     },
-  
     bookings: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -59,8 +50,7 @@ const TrainSchema = new mongoose.Schema(
     stations: [
       {
         name: { type: String, required: true, trim: true },
-        date: { type: Date, required: true },
-        time: { type: String, required: true }, // stored as string like "14:30"
+        date: { type: Date, required: true }, // date + time in one field
       },
     ],
   },
@@ -68,3 +58,20 @@ const TrainSchema = new mongoose.Schema(
 );
 
 export const Train = mongoose.model("Train", TrainSchema);
+
+
+
+// const train = await Train.findOne();
+
+// const departureTime = train.departureDate.toLocaleTimeString("en-IN", {
+//   hour: "2-digit",
+//   minute: "2-digit"
+// });
+
+// const arrivalTime = train.arrivalDate.toLocaleTimeString("en-IN", {
+//   hour: "2-digit",
+//   minute: "2-digit"
+// });
+
+// console.log("Departure:", departureTime); // "04:00 PM"
+// console.log("Arrival:", arrivalTime);     // "08:00 AM"
