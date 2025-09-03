@@ -1,22 +1,20 @@
 import React, { useState } from "react";
+import trainService from "../../server/trainService";
 
 function AddTrain() {
   const [stations, setStations] = useState([{ name: "", date: "", time: "" }]);
+
   const [train, setTrain] = useState({
     name: "",
     number: "",
     source: "",
     destination: "",
-    departure: "",
-    arrival: "",
+    departureDate: "",
+    departureTime: "",
+    arrivalDate: "",
+    arrivalTime: "",
     duration: "",
   });
-
-
-   const payload = {
-      ...train,
-      stations: stations,
-    };
 
   // Handle train input change
   const handleTrainChange = (e) => {
@@ -37,16 +35,39 @@ function AddTrain() {
   };
 
   // Submit form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Train:", train);
     console.log("Stations:", stations);
-    alert(
-      "Train: " +
-        JSON.stringify(train) +
-        "\nStations: " +
-        JSON.stringify(stations)
-    );
+
+    try {
+      const payload = {
+        ...train,
+        stations,
+      };
+
+      const { data } = await trainService.addTrain(payload);
+
+      alert("Train added successfully!");
+      console.log("Response:", data);
+
+      // Reset form
+      setTrain({
+        name: "",
+        number: "",
+        source: "",
+        destination: "",
+        departureDate: "",
+        departureTime: "",
+        arrivalDate: "",
+        arrivalTime: "",
+        duration: "",
+      });
+      setStations([{ name: "", date: "", time: "" }]);
+    } catch (error) {
+      console.error("Error adding train:", error);
+      alert("Failed to add train. Please try again.");
+    }
   };
 
   return (
@@ -60,7 +81,7 @@ function AddTrain() {
           value={train.name}
           onChange={handleTrainChange}
           placeholder="Train Name"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+          className="w-full px-3 py-2 border rounded-lg"
         />
         <input
           type="number"
@@ -68,7 +89,7 @@ function AddTrain() {
           value={train.number}
           onChange={handleTrainChange}
           placeholder="Train Number"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+          className="w-full px-3 py-2 border rounded-lg"
         />
         <input
           type="text"
@@ -76,39 +97,61 @@ function AddTrain() {
           value={train.source}
           onChange={handleTrainChange}
           placeholder="Source"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+          className="w-full px-3 py-2 border rounded-lg"
         />
+
+        {/* Departure */}
+        <div className="grid grid-cols-2 gap-3">
+          <input
+            type="date"
+            name="departureDate"
+            value={train.departureDate}
+            onChange={handleTrainChange}
+            className="px-3 py-2 border rounded-lg"
+          />
+          <input
+            type="time"
+            name="departureTime"
+            value={train.departureTime}
+            onChange={handleTrainChange}
+            className="px-3 py-2 border rounded-lg"
+          />
+        </div>
+
         <input
           type="text"
           name="destination"
           value={train.destination}
           onChange={handleTrainChange}
           placeholder="Destination"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+          className="w-full px-3 py-2 border rounded-lg"
         />
-        <input
-          type="time"
-          name="departure"
-          value={train.departure}
-          onChange={handleTrainChange}
-          placeholder="Departure"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
-        />
-        <input
-          type="time"
-          name="arrival"
-          value={train.arrival}
-          onChange={handleTrainChange}
-          placeholder="Arrival"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
-        />
+
+        {/* Arrival */}
+        <div className="grid grid-cols-2 gap-3">
+          <input
+            type="date"
+            name="arrivalDate"
+            value={train.arrivalDate}
+            onChange={handleTrainChange}
+            className="px-3 py-2 border rounded-lg"
+          />
+          <input
+            type="time"
+            name="arrivalTime"
+            value={train.arrivalTime}
+            onChange={handleTrainChange}
+            className="px-3 py-2 border rounded-lg"
+          />
+        </div>
+
         <input
           type="text"
           name="duration"
           value={train.duration}
           onChange={handleTrainChange}
           placeholder="Duration"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+          className="w-full px-3 py-2 border rounded-lg"
         />
 
         {/* Stations Section */}
@@ -125,7 +168,7 @@ function AddTrain() {
                 handleStationChange(index, "name", e.target.value)
               }
               placeholder={`Station ${index + 1}`}
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+              className="px-3 py-2 border rounded-lg"
             />
             <input
               type="date"
@@ -133,7 +176,7 @@ function AddTrain() {
               onChange={(e) =>
                 handleStationChange(index, "date", e.target.value)
               }
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+              className="px-3 py-2 border rounded-lg"
             />
             <input
               type="time"
@@ -141,7 +184,7 @@ function AddTrain() {
               onChange={(e) =>
                 handleStationChange(index, "time", e.target.value)
               }
-              className="px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-400"
+              className="px-3 py-2 border rounded-lg"
             />
           </div>
         ))}

@@ -8,12 +8,13 @@ class AuthService {
     });
   }
 
-  async signup({ name, email, password }) {
+  async signup({ name, email, password,role }) {
     try {
       const { data } = await this.api.post("/api/user/register", {
         name,
         email,
         password,
+        role
       });
       
       // Store token if received
@@ -28,24 +29,23 @@ class AuthService {
     }
   }
 
-  async login({ email, password }) {
-    try {
-      const { data } = await this.api.post("/api/user/login", {
-        email,
-        password,
-      });
-      
-      // Store token if received
-       if (data.token) {
-       localStorage.setItem("token", data.token);
-       this.api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
-     }
-      
-      return data;
-    } catch (error) {
-      throw error.response?.data || error;
+async login({ email, password }) {
+  try {
+    const { data } = await this.api.post("/api/user/login", { email, password });
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      this.api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
     }
+
+    return data;
+  } catch (error) {
+    // Re-throw the original Axios error so it has response, status, etc.
+    throw error;
   }
+}
+
+
 
   // Initialize authentication token if exists
    initializeAuth() {

@@ -24,8 +24,16 @@ const TrainSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    departure: {
+    departureDate: {
       type: Date,
+      required: true,
+    },
+    arrivalDate: {
+      type: Date,
+      required: true,
+    },
+    departureTime: {
+      type: String,
       required: true,
     },
     arrival: {
@@ -39,7 +47,7 @@ const TrainSchema = new mongoose.Schema(
     },
     availableSeats: {
       type: Number,
-      required: true,
+      default:100
     },
   
     bookings: [

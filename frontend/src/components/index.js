@@ -15,6 +15,8 @@ import Button from "./Button.jsx";
 import SeatCard from "./Train/SeatCard.jsx"
 import LogOutBtn from "./Header/LogOutBtn.jsx";
 
+import AddTrain from "../components/Train/AddTrain.jsx"
+
 export {
     Header,
     Footer,
@@ -31,6 +33,7 @@ export {
     BookTicket,
     Button,
     SeatCard,
-    LogOutBtn
-
+    LogOutBtn,
+    AddTrain
+    
 }

@@ -9,6 +9,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
 import { Profile } from './components/index.js'
+import {AddTrain} from "./components/index.js"
 
 
 import BookingDashboard from './pages/BookingDashboard.jsx'
@@ -51,15 +52,16 @@ const router = createBrowserRouter([
                 
             ),
         },
-        // {
-        //     path: "/edit-post/:slug",
-        //     element: (
-        //         <AuthLayout authentication>
-        //             {" "}
-        //             <EditPost />
-        //         </AuthLayout>
-        //     ),
-        // },
+        {
+            path: "/add-train",
+            element: (
+                
+                <AddTrain />
+                   
+                 //   <EditPost />
+               
+            ),
+        },
         // {
         //     path: "/post/:slug",
         //     element: <Post />,

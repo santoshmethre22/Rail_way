@@ -8,14 +8,16 @@ import { Booking } from "../models/booking.model.js";
 const addTrain = async (req, res) => {
   try {
     const { 
-      name,
-      number,  
-      source,
-      destination,
-      departure,
-      arrival,
-      duration,
-      stations
+       name,
+        number,
+        source,
+        destination,
+         departureDate,
+    arrivalDate,
+    arrivalTime,
+    departureTime,
+        duration,
+        stations,
     } = req.body;
 
     
@@ -29,14 +31,16 @@ const addTrain = async (req, res) => {
 
 
     const train = new Train({
-      name,
-      number,
-      source,
-      destination,
-      departure,
-      arrival,
-      duration,
-      stations
+       name,
+        number,
+        source,
+        destination,
+         departureDate,
+    arrivalDate,
+    arrivalTime,
+    departureTime,
+        duration,
+        stations,
     });
 
     await train.save();

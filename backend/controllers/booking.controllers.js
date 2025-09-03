@@ -57,13 +57,6 @@ const bookTrainTicket = async (req, res) => {
 //
 
 
-
-// @desc    Cancel a booking
-// @route   DELETE /api/bookings/:id
-
-//------------------------------------->
-
-
 const BookingOftrain = async (req, res) => {
   try {
     const bookings = await Booking.find({ train: req.params.id }).populate("user");
@@ -80,7 +73,6 @@ const BookingOftrain = async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
-
 const cancelBooking = async (req, res) => {
   try {
     const { userId, trainId, seat } = req.params;
@@ -126,18 +118,13 @@ const cancelBooking = async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
-
-
 const BookingHistory = async (req, res) => {
   try {
       const userBooking = await Booking.find({ user: req.user._id }).populate("train");
-
       if (!userBooking || userBooking.length === 0) {
           return res.status(404).json({ message: "No booking history found." });
       }
-
       return res.status(200).json(userBooking);
-
   } catch (error) {
       console.error("Error fetching booking history:", error);
       return res.status(500).json({ message: "Internal server error." });

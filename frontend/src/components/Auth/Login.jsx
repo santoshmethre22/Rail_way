@@ -19,6 +19,8 @@ function Login() {
   const [success, setSuccess] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Added loading state
   const [apiError, setApiError] = useState(null); // Added API error state
+  
+  
   const validate = () => {
     let newErrors = {};
 
@@ -38,7 +40,6 @@ function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    // Clear errors when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -59,23 +60,30 @@ function Login() {
     setIsLoading(true);
     setApiError(null);
     try {
-      const data = await authService.login(form);
+     const data = await authService.login({ email: form.email, password: form.password });
+
+      if(!data.user) throw errors;
+     dispatch(login({user:data?.user}));
+
      // console.log("the login data ", data);
       setForm({ email: "", password: "" });
       setSuccess("Login successful!");
-      const user=await authService.getCurrentUser();
-      dispatch(login(user));
+     // const user=await authService.getCurrentUser();
+      //dispatch(login(user));
       
     // here you can dispatch(login(form)) if using redux
       navigate("/");
     } catch (error) {
-      console.error("Login error:", error);
-      setApiError(error.message || "An error occurred during login");
-    } finally {
+  console.error("Login error:", error);
+  setApiError(error.response?.data?.message || error.message || "Login failed");
+}
+ finally {
       setIsLoading(false);
     }
   };
 
+
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">

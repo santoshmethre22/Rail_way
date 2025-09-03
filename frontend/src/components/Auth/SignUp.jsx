@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import {Input} from "../index.js";
+import { Input, Select } from "../index.js";
 import authService from "../../server/auth.js";
 import { useNavigate } from "react-router-dom";
-import {Select } from "../index.js"
+
 function SignUp() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    role:""
+    role: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -37,6 +37,8 @@ function SignUp() {
     if (formData.confirmPassword !== formData.password)
       newErrors.confirmPassword = "Passwords do not match";
 
+    if (!formData.role) newErrors.role = "Role is required";
+
     return newErrors;
   };
 
@@ -51,19 +53,24 @@ function SignUp() {
       console.log("Form submitted:", formData);
 
       try {
-        const { name, email, password } = formData;
-        const data = await authService.signup({ name, email, password });
-       // console.log("Signup success:", data);
+        const { name, email, password, role } = formData;
+        const data = await authService.signup({ name, email, password, role });
 
-       
         setSuccess("Account created successfully!");
-        setFormData({ name: "", email: "", password: "", confirmPassword: "" });
-        
-        navigate("/login")
-        
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          role: ""
+        });
+
+        navigate("/login");
       } catch (err) {
         console.error("Signup error:", err);
-        setErrors({ api: "Failed to create account. Please try again." });
+        setErrors({
+          api: err.response?.data?.message || "Failed to create account. Please try again."
+        });
       }
     }
   };
@@ -114,12 +121,16 @@ function SignUp() {
             <p className="text-xs text-red-600">{errors.confirmPassword}</p>
           )}
 
+          <Select
+            name="role"
+            options={["admin", "user"]}
+            value={formData.role}
+            onChange={handleChange}
+          />
+          {errors.role && <p className="text-xs text-red-600">{errors.role}</p>}
+
           {errors.api && <p className="text-xs text-red-600">{errors.api}</p>}
 
-          <Select
-            placeholder="Select role"
-            option={["admin,user"]}
-          />
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
