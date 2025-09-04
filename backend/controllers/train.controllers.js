@@ -63,18 +63,11 @@ const getAllTrains = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+ 
 
 const searchTrains = async (req, res) => {
   try {
-    const {
-      source,
-      destination,
-       name,
-       number,
-     departureDate,
-      type
-    } = req.body;
+    const { source, destination, name, number, departureDate, type } = req.body;
 
     if (!type) {
       return res.status(400).json({ message: "Please provide search type" });
@@ -82,34 +75,25 @@ const searchTrains = async (req, res) => {
     if (!departureDate) {
       return res.status(400).json({ message: "Travel date is required" });
     }
+
     let train = [];
+
     if (type === "source") {
       if (!source || !destination) {
         return res.status(400).json({ message: "Source and destination required" });
       }
-
       train = await Train.find({
         source: { $regex: new RegExp(source, "i") },
         destination: { $regex: new RegExp(destination, "i") },
-        departureDate: departureDate
+        departureDate
       });
-    } 
-
-    else if (type === "trainNumber") {
+    } else if (type === "trainNumber") {
       if (!number) return res.status(400).json({ message: "Train number required" });
-      train = await Train.find({
-        number,
-        departureDate
-      });
-    } 
-    else if (type === "trainName") {
+      train = await Train.find({ number, departureDate });
+    } else if (type === "trainName") {
       if (!name) return res.status(400).json({ message: "Train name required" });
-      train = await Train.find({
-        name: { $regex: new RegExp(name, "i") },
-        departureDate
-      });
-    } 
-    else {
+      train = await Train.find({ name: { $regex: new RegExp(name, "i") }, departureDate });
+    } else {
       return res.status(400).json({ message: "Invalid search type" });
     }
 
@@ -117,10 +101,7 @@ const searchTrains = async (req, res) => {
       return res.status(404).json({ message: "No trains available for the given input" });
     }
 
-    return res.status(200).json({
-      message: "Trains found the ",
-      train
-    });
+    return res.status(200).json({ message: "Trains found", train });
   } catch (error) {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
@@ -165,7 +146,8 @@ const deleteTrain=async (req,res)=>{
     
   }
 };
-// this method is not required
+
+
 const getAllbookings =async(req,res)=>{
   try {
     const booking =await Booking.find().populate("user train");
@@ -178,7 +160,6 @@ const getAllbookings =async(req,res)=>{
   }
 
 }
-
 
 const getTrainBooking = async (req, res) => {
   try {

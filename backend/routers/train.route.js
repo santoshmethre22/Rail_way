@@ -20,7 +20,7 @@ const trainRouter = express.Router();
 trainRouter.post("/add-train", protect, addTrain); 
 
 trainRouter.get("/get-all-trains", getAllTrains); 
-trainRouter.get("/search-train", searchTrains); 
+trainRouter.post("/search-train", searchTrains); 
 trainRouter.patch("/update-train/:id", protect,updateTrain); 
 trainRouter.delete("/delete-train/:id", protect, adminAuth, deleteTrain);
 trainRouter.get("/get-all-bookings", protect, adminAuth, getAllbookings);

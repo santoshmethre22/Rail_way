@@ -2,50 +2,47 @@ import axios from "axios";
 
 class TrainService {
   api;
-
   constructor() {
     this.api = axios.create({
       baseURL: "http://localhost:5000",
     });
-
     const token = localStorage.getItem("token");
     if (token) {
       this.api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
   }
 
- async addTrain({
-      name,
-      number,
-      source,
-      destination,
-      departureDate,
-      arrivalDate,
-      duration,
-      stations,
-}) {
-  try {
-    const response = await this.api.post("/api/train/add-train", {
-      name,
-      number,
-      source,
-      destination,
-      departureDate,
-      arrivalDate,
-      duration,
-      stations,
-    });
+  async addTrain({
+        name,
+        number,
+        source,
+        destination,
+        departureDate,
+        arrivalDate,
+        duration,
+        stations,
+  }) {
+    try {
+      const response = await this.api.post("/api/train/add-train", {
+        name,
+        number,
+        source,
+        destination,
+        departureDate,
+        arrivalDate,
+        duration,
+        stations,
+      });
 
-    console.log(" the message ", response.data.message);
-    console.log(" the train", response.data.train);
+      console.log(" the message ", response.data.message);
+      console.log(" the train", response.data.train);
 
-    // return train object
-    return response.data.train;
-  } catch (error) {
-    throw new Error(error.response?.data?.message || "Failed to add train");
+      // return train object
+      return response.data.train;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || "Failed to add train");
+    }
   }
-}
-
 
   async getAllTrain(){
     try {
@@ -56,7 +53,7 @@ class TrainService {
     }
 
   }
-
+  
   async searchTrain({
       source,
       destination,
@@ -66,29 +63,19 @@ class TrainService {
       selectType: type
   }){
     try {
-    const res=await this.api.get("/api/tain/search-train",{
-      source,
-      destination,
-      name,
-      number,
-      departureDate,
-      type
-    })
+    const res=await this.api.post("/api/train/search-train",{
+  source, destination, name, number, departureDate, type 
+})
 
-
-    //if()
-  
-    return res.data.trains;
+    return res.data.train;
       
     } catch (error) {
-      
+       console.error("Error searching trains:", error);
     }
 
   }
 
-  
 
-  
 }
 
 
