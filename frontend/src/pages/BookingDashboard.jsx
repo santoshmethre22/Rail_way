@@ -12,6 +12,7 @@ function BookingDashboard() {
         <div>
             <TicketCard train={train} />
         </div>
+        
         <div >
         <BookTicket train={train} seatNumber={1} className={"AC"}/>
             

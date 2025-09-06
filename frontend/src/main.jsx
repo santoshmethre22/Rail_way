@@ -9,7 +9,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
 import { Profile } from './components/index.js'
-import {AddTrain} from "./components/index.js"
+import {SeatCard,AddTrain,BookTicket} from "./components/index.js"
+
 
 
 import BookingDashboard from './pages/BookingDashboard.jsx'
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
          {
              path: "/booking",
             element: (
-                 <BookingDashboard />
+                 <BookTicket />
             ),
         },
         {
@@ -62,10 +63,10 @@ const router = createBrowserRouter([
                
             ),
         },
-        // {
-        //     path: "/post/:slug",
-        //     element: <Post />,
-        // },
+        {
+            path: "/seat-select",
+            element: <SeatCard />,
+        },
     ],
 },
 ])

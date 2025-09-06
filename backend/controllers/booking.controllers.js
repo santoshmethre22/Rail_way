@@ -4,27 +4,21 @@ import mongoose from "mongoose";
 
 const bookTrainTicket = async (req, res) => {
   try {
-    const {trainId, seat} = req.params;
-    const {name,age,phone,email,gender}=req.body;
-    
+    const {trainId, seat} = req.params;   
+    const {name,age,phone,email,gender}=req.body;  
     const userId = req.user.id;
     if (!userId || !trainId || !seat ) {
       return res.status(400).json({ message: "Missing required fields" });
     }
     const train = await Train.findById(trainId);
     if (!train) return res.status(404).json({ message: "Train not found" });
-    // Validate request
-    // Check if the seat is already booked
     const isBooked = await Booking.isBooked(trainId, seat);
     if (isBooked) {
       return res.status(400).json({ message: "This seat is already booked" });
     }
 
-    const totalFare = train.fare;
-
-    // Create a new booking
+    const totalFare = 1000;
     const booking = new Booking({
-
       name,
       age,
       phone,
@@ -34,29 +28,19 @@ const bookTrainTicket = async (req, res) => {
       train: trainId,
       seats:seat,
       totalFare,
-      status: "booked",
+      status: "confirm",
     });
-
     await booking.save();
-        // Update available seats
         train.availableSeats --;
         await train.save();    
-
     res.status(201).json({ message: "Booking successful", booking });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// ---- i have todo in the above to book it correctly -------------->
 
-
-// @desc    Get user's bookings
-// @route   GET /api/bookings
-
-//
-
-
+// dont implement 
 const BookingOftrain = async (req, res) => {
   try {
     const bookings = await Booking.find({ train: req.params.id }).populate("user");
@@ -73,6 +57,8 @@ const BookingOftrain = async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
+
 const cancelBooking = async (req, res) => {
   try {
     const { userId, trainId, seat } = req.params;
@@ -118,6 +104,9 @@ const cancelBooking = async (req, res) => {
     res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
+
+
 const BookingHistory = async (req, res) => {
   try {
       const userBooking = await Booking.find({ user: req.user._id }).populate("train");
@@ -130,8 +119,7 @@ const BookingHistory = async (req, res) => {
       return res.status(500).json({ message: "Internal server error." });
   }
 };
-
-
+    
 export {
   bookTrainTicket, 
    cancelBooking,

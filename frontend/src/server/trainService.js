@@ -46,8 +46,9 @@ class TrainService {
 
   async getAllTrain(){
     try {
-        const res=this.api.get("/api/train/get-all-trains");
+        const res=await this.api.get("/api/train/get-all-trains");
         console.log("the res ",res)
+        return res.data.trains;
     } catch (error) {
         throw new Error(error.res?.data?.message || "Failed to add train");
     }

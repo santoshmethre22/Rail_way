@@ -1,13 +1,20 @@
 import React from "react";
-import {useNavigate} from "react-router-dom"
-import {Button} from "../index.js"
+import { useNavigate } from "react-router-dom";
+import { Button } from "../index.js";
+import { useDispatch } from "react-redux";
+import { mytrain } from "../../store/trainSlice.js";
 
 function TrainCard({ train }) {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const navigate=useNavigate()
+  const handleClick = () => {
+    dispatch(mytrain({train:train}));
+    navigate("/seat-select");
+  };
 
   const departureDate = new Date(train.departureDate).toLocaleDateString();
-const arrivalDate = new Date(train.arrivalDate).toLocaleDateString();
+  const arrivalDate = new Date(train.arrivalDate).toLocaleDateString();
 
   return (
     <div className="bg-white rounded-2xl shadow-md p-5 hover:shadow-lg hover:scale-[1.02] transition-transform duration-200">
@@ -22,21 +29,17 @@ const arrivalDate = new Date(train.arrivalDate).toLocaleDateString();
         <span className="font-medium">To:</span> {train.destination}
       </p>
       <p className="text-gray-700 text-sm">
-        <span className="font-medium">Departure:</span> { departureDate} |{" "}
-        <span className="font-medium">Arrival:</span> { arrivalDate}
+        <span className="font-medium">Departure:</span> {departureDate} |{" "}
+        <span className="font-medium">Arrival:</span> {arrivalDate}
       </p>
       <p className="text-gray-700 text-sm">
         <span className="font-medium">Duration:</span> {train.duration}
       </p>
-      {/* <p className="text-gray-700 text-sm">
-        <span className="font-medium">Classes:</span> {train.classes.join(", ")}
-      </p> */}
 
       <div>
-       <Button onClick={() => navigate("/booking",{state:{train}})}
-       children="Book Now" />
-  
-
+        <Button onClick={handleClick}>
+          Book Now
+        </Button>
       </div>
     </div>
   );

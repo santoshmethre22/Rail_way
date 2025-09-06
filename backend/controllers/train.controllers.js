@@ -49,7 +49,7 @@ const addTrain = async (req, res) => {
 
 const getAllTrains = async (req, res) => {
   try {
-   const trains = await Train.find().select("-bookings -__v -createdAt -updatedAt");
+   const trains = await Train.find().select("-bookings -__v -createdAt -updatedAt").limit(5);
     if(!trains) {
       return res.status(502).json({
         message:" no train available "

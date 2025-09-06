@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { Input, Select } from "../../components/index.js";
+import bookingService from '../../server/bookService.js';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+function BookTicket({className="AC" }) {
 
-function BookTicket({ train, seatNumber, className }) {
+  const { state } = useLocation();
+const seatNumber = state?.seatNumber||{}; 
+  const train=useSelector((state)=>state.train.trainData);
+ 
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -15,14 +22,16 @@ function BookTicket({ train, seatNumber, className }) {
     setUserData((prev) => ({ ...prev, [name]: value }));
   }; 
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", {
+    const paylaod={
       ...userData,
-      train,
+      trainid:train._id,
       seatNumber,
       className
-    });
+    }
+    const data= await bookingService.bookTikcet(paylaod);
+
   };
 
   return (
