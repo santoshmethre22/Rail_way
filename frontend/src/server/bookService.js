@@ -1,41 +1,63 @@
 import axios from "axios";
 
-class BookingService{
-
-    api;
-     constructor() {
+class BookingService {
+  api;
+  constructor() {
     this.api = axios.create({
       baseURL: "http://localhost:5000",
     });
-    const token = localStorage.getItem("token");
-    if (token) {
-      this.api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+
+    this.api.interceptors.request.use((config) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+  }
+
+  async bookTicket({
+    trainId,
+    seat,
+    name,
+    age,
+    phone,
+    email,
+    gender,
+    className,
+  }) {
+    try {
+      const res = await this.api.post(
+        `/api/bookings/book-ticket/${trainId}/${seat}`,
+        {
+          name,
+          age,
+          phone,
+          email,
+          gender,
+          className,
+        }
+      );
+      return res.data.booking;
+    } catch (error) {
+      console.error("Booking failed:", error.response?.data || error.message);
+      throw error;
     }
   }
 
-    async bookTikcet({trainId,seat}){
-       try {
-         const res=await this.api.post(`api/bookings/book-ticket/${trainId}/${seat}`,{
-         },{ 
- 
-         })
- 
-         return res.data.book;
-       } catch (error) {
-        
-       }
 
-    }
-    async cancelBooking(){
 
-    }
+  async cancelBooking() {
 
-    async editBooking(){
+  }
 
-    }
-    
+  async editBooking() {
+
+  }
+
 }
 
-const bookingService= new BookingService();
+const bookingService = new BookingService();
 
 export default bookingService;

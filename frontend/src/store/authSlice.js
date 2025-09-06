@@ -28,9 +28,9 @@ const authSlice = createSlice({
             }
         },
 
-        updateProfile:(state,action)=>{
+        updateProfile: (state, action) => {
 
-            state.userData=action.payload.user
+            state.userData = action.payload.user
 
         }
 

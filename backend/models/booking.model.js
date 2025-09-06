@@ -3,51 +3,57 @@ import mongoose from "mongoose";
 
 const BookingSchema = new mongoose.Schema(
   {
-    name: { type: String, 
-      required: true },
-    age: { type: Number, 
-      required: true },
-    phone: { type: Number,
-       required: true 
-      },
-    email: { 
-      type: String, 
-      required: true 
+    name: {
+      type: String,
+      required: true
+    },
+    age: {
+      type: Number,
+      required: true
+    },
+    phone: {
+      type: Number,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
     }, // Fixed email type
-    gender: { type: String,
-       enum: ["male", "female"] 
-      }, // Fixed enum
+    gender: {
+      type: String,
+      enum: ["Male", "Female"]
+    }, // Fixed enum
     user: {
-       type: mongoose.Schema.Types.ObjectId, 
-      ref: "User", required: true 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User", required: true
     },
-    train: { 
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "Train", required: true 
+    train: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Train", required: true
     },
-    seats: 
-    { 
-      type: Number, 
+    seats:
+    {
+      type: Number,
       required: true
-     },
+    },
     totalFare: {
-       type: Number, 
+      type: Number,
       required: true
 
 
-     },
-    status: { 
-      type: String, 
-      enum: ["confirm", "book"], 
-      default: "book" 
+    },
+    status: {
+      type: String,
+      enum: ["confirm", "book"],
+      default: "book"
 
-    }, 
-    
+    },
+
   },
   { timestamps: true }
 );
 
-// Static method to check if a seat is booked
+
 BookingSchema.statics.isBooked = async function (trainId, seatNumber) {
   const booking = await this.findOne({
     train: trainId,

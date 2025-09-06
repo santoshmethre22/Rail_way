@@ -11,8 +11,6 @@ const trainSlice=createSlice({
     name: "train",
     initialState,
 
-    // todo to implement add train to existing train
-
      reducers: {
     addTrain:(state,action)=>{   
         const train=action.payload.train;
