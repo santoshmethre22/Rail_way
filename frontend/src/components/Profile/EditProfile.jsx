@@ -4,18 +4,22 @@ import { Input } from "../index.js";
 import { Button } from "../index.js";
 import authService from "../../server/auth";
 import {updateProfile as update} from "../../store/authSlice.js"
-
+import { useLocation } from "react-router-dom";
 
 
 function EditProfile() {
+
+  const {state}=useLocation();
+  const data=state.user;
+ 
   const [user, setUser] = useState({});
-  const { state, userData } = useSelector((store) => store.auth);
-    const dispatch=useDispatch();
+  const { status } = useSelector((store) => store.auth);
+  const dispatch=useDispatch();
   useEffect(() => {
-    if (userData) {
-      setUser({ ...userData, password: "" });
+    if (data) {
+      setUser({ ...data });
     }
-  }, [userData]);
+  }, [data]);
 
   const handleChange = (e) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,10 +31,10 @@ function EditProfile() {
         e.prevenDefault();
       const res=  await authService.updateProfile(user);
         
-      console.log(res);
+   //   console.log(res);
 
       if(res.data.user){
-        dispatch(update(user))
+        dispatch(update({user}))
       }
       else {
         res.data.message;
@@ -41,8 +45,8 @@ function EditProfile() {
     }
   }
 
-  if (!state) {
-    return <div className="text-center text-xl font-semibold mt-10">Hello World</div>;
+  if (!status) {
+    return <div className="text-center text-xl font-semibold mt-10">Please login</div>;
   }
 
   return (
@@ -67,15 +71,7 @@ function EditProfile() {
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
           />
-          <Input
-            label="Password"
-            name="password"
-            placeholder="Enter New Password"
-            type="password"
-            value={user.password || ""}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-          />
+         
 
           <Button
             type="submit"

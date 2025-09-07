@@ -30,7 +30,7 @@ const authSlice = createSlice({
 
         updateProfile: (state, action) => {
 
-            state.userData = action.payload.user
+            state.userData ={ ...state.userData,...action.payload.user}
 
         }
 
@@ -39,6 +39,6 @@ const authSlice = createSlice({
 })
 
 
-export const { login, logout, editProfile, editPic } = authSlice.actions;
+export const { login, logout, editProfile, editPic ,updateProfile} = authSlice.actions;
 
 export default authSlice.reducer;

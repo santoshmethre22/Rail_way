@@ -14,7 +14,7 @@ import BookTicket from "./Ticket/BookTicket.jsx"
 import Button from "./Button.jsx";
 import SeatCard from "./Train/SeatCard.jsx"
 import LogOutBtn from "./Header/LogOutBtn.jsx";
-
+import EditProfile from "./Profile/EditProfile.jsx";
 import TrainDashboard from "./Train/TrainDashboard.jsx";
 import AddTrain from "../components/Train/AddTrain.jsx"
 
@@ -36,6 +36,7 @@ export {
     SeatCard,
     LogOutBtn,
     AddTrain
-    ,TrainDashboard
+    ,TrainDashboard,
+    EditProfile
     
 }

@@ -79,8 +79,8 @@ async login({ email, password }) {
    async updateProfile(data) {
   
     try {
-        const d=await this.api.patch("/api/user/update-user",{data});
-        const {message,user}=d;
+        const res=await this.api.patch("/api/user/update-user",{data});
+        const {message,user}=res?.data;
         
     } catch (error) {
         throw error;

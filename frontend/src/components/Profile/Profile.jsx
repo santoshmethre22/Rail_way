@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
-
-  const role="Web Developer";
-const social = {
-    facebook: "#",
-    twitter: "#",
-    instagram: "#",
-  }
-
-
+  const navigate=useNavigate();
   const {status,userData}=useSelector((state)=>state.auth);
-
-  
   const [user,setUser]=useState()
-  
    const  name="sam"
    const  email="sam@gmail.com"
    const  phone="898903093"
@@ -26,6 +16,24 @@ useEffect(()=>{
    console.log("this is user data",userData)
    },[]);
   
+
+  const role="Web Developer";
+  const social = {
+    facebook: "#",
+    twitter: "#",
+    instagram: "#",
+  }
+  
+  const handleClick=()=>{
+    try {
+
+      navigate("/edit-profile",{state:{user:user}})
+      
+    } catch (error) {
+      
+    }
+  }
+
 
   if(!status){
     return (
@@ -50,12 +58,14 @@ useEffect(()=>{
           />
           <h2 className="text-xl font-semibold">{name}</h2>
           <p className="text-sm mb-4">{role}</p>
-          <button className="bg-white text-blue-600 px-4 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition">
+          <button
+          onClick={handleClick}
+          className="bg-white text-blue-600 px-4 py-1 rounded-full text-sm font-medium hover:bg-gray-200 transition">
             Edit
           </button>
         </div>
 
-        {/* Right side */}
+  
         <div className="flex-1 p-6">
           <h3 className="text-lg font-semibold text-gray-700">Information</h3>
           <hr className="my-3" />

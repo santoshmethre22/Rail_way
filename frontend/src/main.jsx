@@ -8,7 +8,7 @@ import {Provider } from "react-redux"
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
-import { Profile } from './components/index.js'
+import { Profile,EditProfile } from './components/index.js'
 import {SeatCard,AddTrain,BookTicket} from "./components/index.js"
 
 
@@ -50,6 +50,14 @@ const router = createBrowserRouter([
             element: (
                 
                 <Profile />
+                
+            ),
+        },
+        {
+            path: "/edit-profile",
+            element: (
+                
+                <EditProfile />
                 
             ),
         },
