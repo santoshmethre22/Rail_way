@@ -19,10 +19,12 @@ function TrainDashboard() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-6 max-w-screen-xl mx-auto">
-      {allTrain.map((train) => (
-        <TrainCard key={train._id} train={train} /> 
-      ))}
+    <div className="w-screen h-screen bg-gray-100 p-6 overflow-y-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full h-full">
+        {allTrain.map((train) => (
+          <TrainCard key={train._id} train={train} /> 
+        ))}
+      </div>
     </div>
   );
 }

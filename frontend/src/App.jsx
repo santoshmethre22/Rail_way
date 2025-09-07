@@ -1,35 +1,25 @@
-import React ,{useState}from 'react'
-// import {useDispatch} from "react-redux"
-//import { Header,Footer } from './components/index.js'
-import { Outlet } from 'react-router-dom'
-import { Header,Footer } from './components/index.js'
-// const [loading, setLoading] = useState(true)
-//  const dispatch = useDispatch()
-import "./App.css"
-  // useEffect(() => {
-  //   authService.getCurrentUser()
-  //   .then((userData) => {
-  //     if (userData) {
-  //       dispatch(login({userData}))
-  //     } else {
-  //       dispatch(logout())
-  //     }
-  //   })
-  //   .finally(() => setLoading(false))
-  // }, [])
-
+import React from "react";
+import { Outlet } from "react-router-dom";
+import { Header, Footer } from "./components/index.js";
+import "./App.css";
 
 function App() {
   return (
-    <div>
-      
+    <div className="w-screen h-screen flex flex-col">
+      {/* Header */}
       <Header />
-        <main >
-          <Outlet />
-        </main>
+
+      
+   <main>
+
+       <Outlet />
+   </main>
+
+
+      {/* Footer */}
       <Footer />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

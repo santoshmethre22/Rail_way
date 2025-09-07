@@ -71,7 +71,7 @@ function BookTicket({ className = "AC" }) {
           value={userData.gender}
           onChange={handleChange} />
 
-        <button type="submit" className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+        <button type="submit" className="w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 transition">
           Confirm Booking
         </button>
       </form>

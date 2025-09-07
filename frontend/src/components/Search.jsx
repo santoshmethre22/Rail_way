@@ -4,17 +4,13 @@ import { useNavigate } from "react-router-dom";
 import trainService from "../server/trainService.js";
 
 const RailwaySearch = () => {
-
-
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [name, setTrainName] = useState("");
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
   const [number, setTrainNumber] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [type, setType] = useState("source");
-
-  const train=[];
 
   const resetForm = () => {
     setTrainName("");
@@ -39,39 +35,42 @@ const RailwaySearch = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
       const payload = { name, source, destination, number, departureDate, type };
-      console.log("Search Payload:", payload);
-      const data =await trainService.searchTrain(payload);
-      
-    if (!data ) {
-      alert("No trains found");
-      return;
-    }
-    navigate("/searched-train", { state: { train: data} });
+      const data = await trainService.searchTrain(payload);
+
+      if (!data) {
+        alert("No trains found");
+        return;
+      }
+      navigate("/searched-train", { state: { train: data } });
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   return (
-    <div className="railway-search-container">
-      <div className="search-header">
-        <h1>Railway Ticket Booking</h1>
-        <p>Book your train tickets in just a few clicks</p>
+    <div className="w-screen min-h-screen flex flex-col items-center justify-start bg-gray-50 p-6 py-10">
+
+      {/* Header */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold mb-2">Railway Ticket Booking</h1>
+        <p className="text-gray-600">
+          Book your train tickets in just a few clicks
+        </p>
       </div>
 
-      <Select
-        label="Search Type"
-        options={["source", "trainNumber", "trainName"]}
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-      />
+      {/* Search Form */}
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-md p-6">
+        <Select
+          label="Search Type"
+          options={["source", "trainNumber", "trainName"]}
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+        />
 
-      <div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           {type === "source" && (
-            <div>
+            <div className="space-y-2">
               <Input
                 label="From"
                 placeholder="Enter source"
@@ -105,26 +104,36 @@ const RailwaySearch = () => {
             />
           )}
 
-          <div>
-            <Input
-              label="Date"
-              type="date"
-              value={departureDate}
-              onChange={(e) => setDepartureDate(e.target.value)}
-            />
+          <Input
+            label="Date"
+            type="date"
+            value={departureDate}
+            onChange={(e) => setDepartureDate(e.target.value)}
+          />
+
+          <div className="flex space-x-4 pt-2">
+            <button
+              type="submit"
+              className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+            >
+              Search
+            </button>
+            <button
+              type="button"
+              onClick={resetForm}
+              className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300"
+            >
+              Reset
+            </button>
           </div>
-
-          <button type="submit">Search</button>
-
-          <button type="button" onClick={resetForm}>
-            Reset
-          </button>
         </form>
       </div>
 
       {departureDate && (
-        <div className="selected-date">
-          <h3>Showing results for: {formatDate(departureDate)}</h3>
+        <div className="mt-6 text-gray-700">
+          <h3 className="text-lg font-medium">
+            Showing results for: {formatDate(departureDate)}
+          </h3>
         </div>
       )}
     </div>

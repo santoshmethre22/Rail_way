@@ -1,20 +1,18 @@
-import React, { useState } from "react";
-import {TrainDashboard} from "../components/index.js";
-import { Search } from "../components/index.js";
+import React from "react";
+import { TrainDashboard, Search } from "../components/index.js";
 
 function Home() {
-  
-
   return (
-    <div className="min-h-screen bg-gray-100 w-full">
+    <div className="w-screen min-h-screen bg-gray-100 flex flex-col">
       {/* Search Section */}
-      <div className="flex justify-center mb-6 px-6">
+      <div className="w-full bg-white shadow-md py-6 px-6 flex justify-center">
         <Search />
-        <TrainDashboard />
       </div>
 
-      {/* Train Cards */}
-     
+      {/* Train Dashboard Section */}
+      <div className="flex-1 p-6 overflow-y-auto">
+        <TrainDashboard />
+      </div>
     </div>
   );
 }
