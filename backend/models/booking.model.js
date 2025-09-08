@@ -44,17 +44,21 @@ const BookingSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["confirm", "book"],
+      enum: ["confirm", "book","cancel"],
       default: "book"
 
     },
+
+    reason:{
+      type:String,
+    }
 
   },
   { timestamps: true }
 );
 
 
-BookingSchema.statics.isBooked = async function (trainId, seatNumber) {
+BookingSchema.statics.isBooked = async function (id) {
   const booking = await this.findOne({
     train: trainId,
     seats: seatNumber,

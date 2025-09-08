@@ -49,18 +49,15 @@ const RailwaySearch = () => {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-start bg-gray-50 p-6 py-10">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-start bg-gray-50  py-5 pb-0 my-0">
 
       {/* Header */}
-      <div className="text-center mb-8">
+      <div className="text-center">
         <h1 className="text-3xl font-bold mb-2">Railway Ticket Booking</h1>
-        <p className="text-gray-600">
-          Book your train tickets in just a few clicks
-        </p>
       </div>
 
       {/* Search Form */}
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-md p-6">
+      <div className="w-full max-w-lg  rounded-2xl shadow-md p-6">
         <Select
           label="Search Type"
           options={["source", "trainNumber", "trainName"]}
@@ -111,21 +108,23 @@ const RailwaySearch = () => {
             onChange={(e) => setDepartureDate(e.target.value)}
           />
 
+
           <div className="flex space-x-4 pt-2">
             <button
               type="submit"
-              className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 transition"
             >
               Search
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-md hover:bg-gray-300"
+              className="w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:opacity-90 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 transition"
             >
               Reset
             </button>
           </div>
+
         </form>
       </div>
 

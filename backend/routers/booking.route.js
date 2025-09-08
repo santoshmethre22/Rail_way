@@ -16,9 +16,11 @@ const BookingRouter = Router();
 
 BookingRouter.post("/book-ticket/:trainId/:seat", protect, bookTrainTicket);
 
-BookingRouter.delete("/cancelBooking/:userId/:trainId/:seat", protect, cancelBooking);
+BookingRouter.patch("/cancel-booking/:bookingId", protect, cancelBooking);
 BookingRouter.get("all-booking-of-train/:id",protect,BookingOftrain);
-BookingRouter.get('/get-user-history/:id',protect,BookingHistory);
+
+// this for the user 
+BookingRouter.get('/get-user-history',protect,BookingHistory);
 
 
 export  default BookingRouter;

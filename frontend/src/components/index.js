@@ -16,14 +16,16 @@ import SeatCard from "./Train/SeatCard.jsx"
 import LogOutBtn from "./Header/LogOutBtn.jsx";
 import EditProfile from "./Profile/EditProfile.jsx";
 import TrainDashboard from "./Train/TrainDashboard.jsx";
-import AddTrain from "../components/Train/AddTrain.jsx"
+import AddTrain from "../components/Train/AddTrain.jsx";
+
+import CancelPage from "./Ticket/CancelPage.jsx";
 
 export {
     Header,
     Footer,
     Container,
     Logo,
-    TicketCard,
+  
     Profile,
     TrainCard,
     Select,
@@ -37,6 +39,8 @@ export {
     LogOutBtn,
     AddTrain
     ,TrainDashboard,
-    EditProfile
+    EditProfile,
+    TicketCard,
+    CancelPage
     
 }

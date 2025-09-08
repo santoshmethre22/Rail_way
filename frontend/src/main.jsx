@@ -9,8 +9,8 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import store from "./store/store.js"
 import { Profile,EditProfile } from './components/index.js'
-import {SeatCard,AddTrain,BookTicket} from "./components/index.js"
-
+import {SeatCard,AddTrain,BookTicket,CancelPage} from "./components/index.js"
+import Contact from './pages/Contact.jsx'
 
 
 import BookingDashboard from './pages/BookingDashboard.jsx'
@@ -72,8 +72,19 @@ const router = createBrowserRouter([
             ),
         },
         {
+            path:"/cancel-ticket",
+            element:(
+                <CancelPage />
+            )
+
+        },
+        {
             path: "/seat-select",
             element: <SeatCard />,
+        },
+        {
+            path: "/contact",
+            element: <Contact />,
         },
     ],
 },

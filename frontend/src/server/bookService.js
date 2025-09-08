@@ -46,13 +46,38 @@ class BookingService {
     }
   }
 
+  async cancelBooking({bookingId,reason}) {
+    try {
+    const res=await this.api.patch(`/api/bookings/cancel-booking/${bookingId}`,{
+      reason
+    });
+    return res.data.ans;
+      
+    } catch (error) {
 
+       console.error("Booking failed:", error.response?.data || error.message);
+      throw error;
 
-  async cancelBooking() {
+      
+    }
+   
 
   }
 
   async editBooking() {
+
+  }
+
+  async userBooking(){
+    try {
+      
+          const res=await this.api.get(`/api/bookings/get-user-history`);
+          return res.data.bookings
+
+    } catch (error) {
+      
+    }
+    
 
   }
 

@@ -3,9 +3,9 @@ import { TrainDashboard, Search } from "../components/index.js";
 
 function Home() {
   return (
-    <div className="w-screen min-h-screen bg-gray-100 flex flex-col">
+    <div className="w-screen min-h-screen bg-gray-100 py-0  flex flex-col">
       {/* Search Section */}
-      <div className="w-full bg-white shadow-md py-6 px-6 flex justify-center">
+      <div className="w-full  py-6 flex justify-center">
         <Search />
       </div>
 

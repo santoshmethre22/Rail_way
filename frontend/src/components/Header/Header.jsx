@@ -7,19 +7,17 @@ import { useDispatch } from "react-redux";
 import authService from '../../server/auth';
 import { logout } from "../../store/authSlice.js";
 
-function Header({ user, onLogout }) {
+function Header({ user}) {
   const authStatus = useSelector((state) => state.auth.status);
+  const userData=useSelector((state)=>state.auth.userData);
+  const role=userData?.role=="admin"?true:false;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const navigate = useNavigate();
-
-
   const dispatch = useDispatch();
-
   const handleClick = () => {
     authService.logout();
     dispatch(logout)
     setDropdownOpen(false);
-    onLogout?.();
     navigate("/login")
   }
 
@@ -38,23 +36,24 @@ function Header({ user, onLogout }) {
     {
       name: "Login",
       slug: "/login",
-      active: !authStatus,
+      active:authStatus==false,
     },
     {
       name: "Signup",
       slug: "/signup",
-      active: !authStatus,
+      active:authStatus==false,
+    },
+   
+  {
+      name:"Contact",
+      slug:"/Contact"
+      ,active:true
     },
     {
-      name: "All Posts",
-      slug: "/all-posts",
-      active: authStatus,
-    },
-    {
-      name: "Add Post",
-      slug: "/add-post",
-      active: authStatus,
-    },
+      name:"AddTrain",
+      slug:"/add-train",
+      active:role
+    }
   ]
 
 
@@ -83,7 +82,7 @@ function Header({ user, onLogout }) {
             )}
 
 
-            {!authStatus && (
+            {authStatus==true && (
               <li>
                 <LogOutBtn />
               </li>
@@ -112,7 +111,6 @@ function Header({ user, onLogout }) {
                   </svg>
                 </button>
 
-                {/* Dropdown Menu */}
                 {dropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white text-slate-800 rounded shadow-lg">
                     <Link

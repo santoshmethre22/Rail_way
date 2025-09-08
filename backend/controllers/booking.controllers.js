@@ -40,7 +40,7 @@ const bookTrainTicket = async (req, res) => {
 };
 
 
-// dont implement 
+// dont implement this functionality
 const BookingOftrain = async (req, res) => {
   try {
     const bookings = await Booking.find({ train: req.params.id }).populate("user");
@@ -61,47 +61,41 @@ const BookingOftrain = async (req, res) => {
 
 const cancelBooking = async (req, res) => {
   try {
-    const { userId, trainId, seat } = req.params;
+    const { bookingId } = req.params;
+    const userId = req.user.id;
+    const { reason } = req.body;
 
-    // Convert trainId and userId to ObjectId if necessary
-    if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(trainId)) {
-      return res.status(400).json({ message: "Invalid userId or trainId" });
+    if (!userId) {
+      return res.status(400).json({ message: "Please login" });
     }
 
-    const seatNumber = Number(seat); // Convert seat to number if needed
+    const booking = await Booking.findById(bookingId);
 
-    // Find the booking based on user, train, and seat number
-    const booking = await Booking.findOne({ 
-      user: new mongoose.Types.ObjectId(userId), 
-      train: new mongoose.Types.ObjectId(trainId), 
-      seats: Number(seat) 
-    });
-
-    if (!booking) return res.status(404).json({ message: "Booking not found" });
-
-    // Authorization Check (Ensure the user is canceling their own booking)
-    if (booking.user.toString() !== userId) {
-      return res.status(403).json({ message: "Unauthorized: You can only cancel your own booking" });
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
     }
 
-    // Find the train
+    booking.status = "cancel";
+    booking.reason = reason;
+    // todo remove this line
+    
+    booking.gender="Male";
+    const trainId = booking.train;
     const train = await Train.findById(trainId);
-    if (!train) return res.status(404).json({ message: "Train not found" });
 
-    // Update seat availability only if it doesn't exceed total seats
-    if (train.availableSeats < train.totalSeats) {
-      train.availableSeats += 1;
+    if (train) {
+      train.availableSeats++;
       await train.save();
     }
 
-    // Cancel the booking
-    booking.status = "notbooked";
     await booking.save();
 
-    res.json({ message: "Booking cancelled successfully" });
+    res.json({ message: "Booking cancelled successfully", ans: true });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -109,11 +103,24 @@ const cancelBooking = async (req, res) => {
 
 const BookingHistory = async (req, res) => {
   try {
-      const userBooking = await Booking.find({ user: req.user._id }).populate("train");
-      if (!userBooking || userBooking.length === 0) {
-          return res.status(404).json({ message: "No booking history found." });
-      }
-      return res.status(200).json(userBooking);
+
+    const userId=req.user.id;
+    if(!userId){
+      return res.status(400).json({
+          message:"please login "
+      })
+    }
+     const userBooking = await Booking.find({ user: userId })
+  .populate({
+    path: "train",
+    select: "-bookings -stations -__v -createdAt -updatedAt"
+  })
+  .select("-__v -createdAt -updatedAt"); 
+
+      return res.status(200).json({
+        message:"the data fetched successfull",
+        bookings:userBooking
+      });
   } catch (error) {
       console.error("Error fetching booking history:", error);
       return res.status(500).json({ message: "Internal server error." });
