@@ -34,6 +34,11 @@ function Header({ user}) {
       active: true
     },
     {
+        name:"Contact",
+        slug:"/Contact"
+        ,active:true
+      },
+    {
       name: "Login",
       slug: "/login",
       active:authStatus==false,
@@ -44,11 +49,6 @@ function Header({ user}) {
       active:authStatus==false,
     },
    
-  {
-      name:"Contact",
-      slug:"/Contact"
-      ,active:true
-    },
     {
       name:"AddTrain",
       slug:"/add-train",
@@ -82,12 +82,7 @@ function Header({ user}) {
             )}
 
 
-            {authStatus==true && (
-              <li>
-                <LogOutBtn />
-              </li>
-            )}
-
+          
 
             {
               (authStatus == true) && (<div className="relative">
@@ -95,11 +90,11 @@ function Header({ user}) {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center focus:outline-none"
                 >
-                  <img
+                  {user?.image ?(<img
                     src={user?.image || "https://i.pravatar.cc/40"}
                     alt="profile"
                     className="w-9 h-9 rounded-full border-2 border-indigo-400"
-                  />
+                  />):("T") }
                   <svg
                     className="w-4 h-4 ml-1 text-gray-300"
                     fill="none"

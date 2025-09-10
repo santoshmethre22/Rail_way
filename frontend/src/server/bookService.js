@@ -4,7 +4,7 @@ class BookingService {
   api;
   constructor() {
     this.api = axios.create({
-      baseURL: "http://localhost:5000",
+      baseURL: "https://rail-way.onrender.com",
     });
 
 
@@ -28,6 +28,8 @@ class BookingService {
     className,
   }) {
     try {
+
+      console.log("trianId ",trainId)
       const res = await this.api.post(
         `/api/bookings/book-ticket/${trainId}/${seat}`,
         {

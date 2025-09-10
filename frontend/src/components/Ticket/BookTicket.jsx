@@ -4,16 +4,14 @@ import bookingService from '../../server/bookService.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { bookTicket } from "../../store/bookingSlice.js"
+import { useNavigate } from 'react-router-dom';
 
 function BookTicket({ className = "AC" }) {
-
+  const navigate=useNavigate();
   const { state } = useLocation();
   const seatNumber = state?.seatNumber || {};
-
-
   const user = useSelector((state) => (state.auth.userData));
   const train = useSelector((state) => state.train.trainData);
-
 
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({
@@ -44,6 +42,9 @@ function BookTicket({ className = "AC" }) {
       dispatch(bookTicket({ booking :{ ...booking, user:user, train:train }}));
 
       alert("Ticket booked successfully!");
+
+      navigate("/")
+
     } catch (error) {
       console.error("Error booking ticket:", error);
       alert("Failed to book ticket. Please try again.");

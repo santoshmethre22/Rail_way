@@ -10,6 +10,7 @@ const bookTrainTicket = async (req, res) => {
     if (!userId || !trainId || !seat ) {
       return res.status(400).json({ message: "Missing required fields" });
     }
+    
     const train = await Train.findById(trainId);
     if (!train) return res.status(404).json({ message: "Train not found" });
     const isBooked = await Booking.isBooked(trainId, seat);

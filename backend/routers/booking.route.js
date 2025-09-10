@@ -13,7 +13,6 @@ import {
 } from "../controllers/booking.controllers.js"
 
 const BookingRouter = Router();
-
 BookingRouter.post("/book-ticket/:trainId/:seat", protect, bookTrainTicket);
 
 BookingRouter.patch("/cancel-booking/:bookingId", protect, cancelBooking);
